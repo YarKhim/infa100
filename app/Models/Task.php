@@ -27,8 +27,8 @@ class Task extends Model
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
     }
-    public function condition():BelongsTo
+    /*public function condition():BelongsTo
     {
         return $this->belongsTo(TaskCondition::class, 'task');
-    }
+    }*/
 }

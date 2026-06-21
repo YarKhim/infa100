@@ -15,23 +15,17 @@ class TasksTable
     {
         return $table
             ->columns([
-                /*TextColumn::make('id_subject')
-                    ->numeric()
-                    ->sortable(),*/
                 TextColumn::make('subject.subject_name'),
-                /*TextColumn::make('id_task_source')
-                    ->numeric()
-                    ->sortable(),*/
                 TextColumn::make('source.source_name')
                     ->sortable(),
-
                 TextColumn::make('task_number_in_the_kim')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('task_type')
-                    ->badge(),
+                /*TextColumn::make('task_type')
+                    ->badge(),*/
                 TextColumn::make('difficulty_level')
-                    ->badge(),
+                    ->badge()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

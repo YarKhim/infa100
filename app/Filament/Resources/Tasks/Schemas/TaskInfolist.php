@@ -25,18 +25,17 @@ class TaskInfolist
                         TextEntry::make('difficulty_level')
                             ->label('Уровень сложности')
                             ->badge()
+                            ->columnStart(1),
+                        TextEntry::make('answer')
+                            ->label('Ответ')
                             ->columnStart(1)
 
                     ])->columns(1),
-                    Section::make()->schema([
+                    Section::make('Условие')->schema([
                         TextEntry::make('condition')
-                            ->label('Условие')
+                            ->label(fn ($livewire) => '№ ' . $livewire->record->task_number_in_the_kim)
                             ->columnStart(1)
                     ])->columnSpan(3)
-                    
-
-
-
                 ])->columns(4)
 
 
