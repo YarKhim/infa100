@@ -12,38 +12,65 @@ class TaskInfolist
     {
         return $schema
             ->components([
-                Section::make(fn ($livewire) => 'Задача #' . $livewire->record->id)
-                    ->schema([
+                Section::make(fn ($livewire) => '# ' . $livewire->record->id)->schema([
+                    Section::make()->schema([
                         TextEntry::make('source.source_name')
                             ->label('Источник')
                             ->badge()
                             ->columnStart(1),
-                        TextEntry::make('difficulty_level')
+                        TextEntry::make('task_number_in_the_kim')
+                            ->label('Номер задачи по КИМ')
                             ->badge()
-                            ->label('Уровень сложности')
                             ->columnStart(1),
-                        Section::make()->schema([
+                        TextEntry::make('difficulty_level')
+                            ->label('Уровень сложности')
+                            ->badge()
+                            ->columnStart(1)
 
-                        ])->columnStart(2)
-                        ->columnSpan(3)
-                ])->columns(4),
-                /*TextEntry::make('id_subject')
-                    ->numeric(),*/
+                    ])->columns(1),
+                    Section::make()->schema([
+                        TextEntry::make('condition')
+                            ->label('Условие')
+                            ->columnStart(1)
+                    ])->columnSpan(3)
+                    
 
-                /*TextEntry::make('id_task_source')
-                    ->numeric(),*/
-                #TextEntry::make('subject.subject_name'),
-                /*TextEntry::make('task_type')
-                    ->badge(),*/
-                /*TextEntry::make('task_number_in_the_kim')
-                    ->numeric(),*/
 
-                /*TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),*/
+
+                ])->columns(4)
+
+
             ])->columns(1);
     }
 }
+/*TextEntry::make('id_subject')
+    ->numeric(),*/
+
+/*TextEntry::make('id_task_source')
+    ->numeric(),*/
+#TextEntry::make('subject.subject_name'),
+/*TextEntry::make('task_type')
+    ->badge(),*/
+/*TextEntry::make('task_number_in_the_kim')
+    ->numeric(),*/
+
+/*TextEntry::make('created_at')
+    ->dateTime()
+    ->placeholder('-'),
+TextEntry::make('updated_at')
+    ->dateTime()
+    ->placeholder('-'),*/
+/*->schema([
+    TextEntry::make('source.source_name')
+        ->label('Источник')
+        ->badge()
+        ->columnStart(1),
+    TextEntry::make('difficulty_level')
+        ->badge()
+        ->label('Уровень сложности')
+        ->columnStart(1),
+    Section::make()->schema([
+
+    ])->columnStart(2)
+        ->columnSpan(3)
+])->columns(4),*/

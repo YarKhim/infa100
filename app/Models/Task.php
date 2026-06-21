@@ -13,6 +13,8 @@ class Task extends Model
         'task_type',
         'task_number_in_the_kim',
         'difficulty_level',
+        'answer',
+        'condition'
     ];
     //Получаем предмет по его id
     public function subject():BelongsTo
@@ -24,5 +26,9 @@ class Task extends Model
     public function source():BelongsTo
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
+    }
+    public function condition():BelongsTo
+    {
+        return $this->belongsTo(TaskCondition::class, 'task');
     }
 }

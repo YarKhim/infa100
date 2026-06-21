@@ -8,5 +8,6 @@ class TaskCondition extends Model
 {
     protected $fillable = [
         'task',
+        'text'
     ];
 }
