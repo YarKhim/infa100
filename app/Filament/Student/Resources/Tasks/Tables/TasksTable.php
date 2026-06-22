@@ -32,7 +32,8 @@ class TasksTable
                     ->label('Номер задачи в КИМе'),
                 TextColumn::make('difficulty_level')
                     ->badge()
-                    ->label('Уровень сложности'),
+                    ->label('Уровень сложности')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -46,7 +47,8 @@ class TasksTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                ->label('Смотреть задачу'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

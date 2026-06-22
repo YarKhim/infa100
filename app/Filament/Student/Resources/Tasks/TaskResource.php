@@ -5,6 +5,7 @@ namespace App\Filament\Student\Resources\Tasks;
 use App\Filament\Student\Resources\Tasks\Pages\CreateTask;
 use App\Filament\Student\Resources\Tasks\Pages\EditTask;
 use App\Filament\Student\Resources\Tasks\Pages\ListTasks;
+use App\Filament\Student\Resources\Tasks\Pages\Solve;
 use App\Filament\Student\Resources\Tasks\Pages\ViewTask;
 use App\Filament\Student\Resources\Tasks\Schemas\TaskForm;
 use App\Filament\Student\Resources\Tasks\Schemas\TaskInfolist;
@@ -43,14 +44,14 @@ class TaskResource extends Resource
             //
         ];
     }
-
     public static function getPages(): array
     {
         return [
             'index' => ListTasks::route('/'),
-            'create' => CreateTask::route('/create'),
+            //'create' => CreateTask::route('/create'),
             'view' => ViewTask::route('/{record}'),
-            'edit' => EditTask::route('/{record}/edit'),
+            'solve' => Pages\Solve::route('/{record}/solve'),
+            //'edit' => EditTask::route('/{record}/edit'),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tasks\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -41,6 +42,11 @@ class TaskForm
                     ->required()
                     ->string()
                     ->label('Правильный ответ'),
+                FileUpload::make('file_path')
+                    ->disk('public')
+                    ->directory('/tasks_files')
+                    ->placeholder('Наибольший размер файла - 20Мб')
+                    ->label('Файлы к задаче'),
                 Textarea::make('condition')
                     ->required()
                     ->label('Условие')

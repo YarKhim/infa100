@@ -14,7 +14,8 @@ class Task extends Model
         'task_number_in_the_kim',
         'difficulty_level',
         'answer',
-        'condition'
+        'condition',
+        'files_path' =>'array'
     ];
     //Получаем предмет по его id
     public function subject():BelongsTo
