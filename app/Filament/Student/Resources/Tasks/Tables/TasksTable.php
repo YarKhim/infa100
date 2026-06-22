@@ -15,21 +15,24 @@ class TasksTable
     {
         return $table
             ->columns([
-                TextColumn::make('id_subject')
+                TextColumn::make('subject.subject_name')
                     ->numeric()
-                    ->sortable(),
-                TextColumn::make('id_task_source')
+                    ->sortable()
+                    ->label('Предмет'),
+                TextColumn::make('source.source_name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Источник задачи'),
                 TextColumn::make('task_type')
-                    ->badge(),
+                    ->badge()
+                    ->label('Тип задания'),
                 TextColumn::make('task_number_in_the_kim')
                     ->numeric()
-                    ->sortable(),
-                TextColumn::make('answer')
-                    ->searchable(),
+                    ->sortable()
+                    ->label('Номер задачи в КИМе'),
                 TextColumn::make('difficulty_level')
-                    ->badge(),
+                    ->badge()
+                    ->label('Уровень сложности'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -44,11 +47,10 @@ class TasksTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    //DeleteBulkAction::make(),
                 ]),
             ]);
     }
