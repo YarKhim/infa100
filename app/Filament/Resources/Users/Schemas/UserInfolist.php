@@ -23,8 +23,9 @@ class UserInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
-                TextEntry::make('role_id')
-                    ->numeric(),
+                TextEntry::make('role.name')
+                    ->numeric()
+                    ->label('Роль'),
             ]);
     }
 }

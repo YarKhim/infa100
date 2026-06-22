@@ -25,7 +25,6 @@ class UserForm
                 TextInput::make('role_id')
                     ->required()
                     ->numeric()
-                    ->default(1),
             ]);
     }
 }
