@@ -35,6 +35,7 @@ class TaskInfolist
                         TextEntry::make('condition')
                             ->label(fn ($livewire) => '№ ' . $livewire->record->task_number_in_the_kim)
                             ->columnStart(1)
+                            ->markdown()
                     ])->columnSpan(3)
                 ])->columns(4)
 

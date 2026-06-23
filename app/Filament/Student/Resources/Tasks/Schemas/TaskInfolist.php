@@ -10,6 +10,7 @@ class TaskInfolist
 {
     public static function configure(Schema $schema): Schema
     {
+        //composer require phiki/phiki
         return $schema
             ->components([
                 Section::make(fn ($livewire) => '#' . $livewire->record->id)->schema([
@@ -31,6 +32,8 @@ class TaskInfolist
                         TextEntry::make('condition')
                             ->label(fn ($livewire) => '№ ' . $livewire->record->task_number_in_the_kim)
                             ->columnStart(1)
+                            ->markdown()
+
                     ])->columnSpan(3)
                 ])->columns(4)
 
