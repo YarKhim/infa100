@@ -54,4 +54,5 @@ class TaskResource extends Resource
             //'edit' => EditTask::route('/{record}/edit'),
         ];
     }
+
 }

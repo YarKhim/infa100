@@ -26,6 +26,7 @@ class StudentPanelProvider extends PanelProvider
         return $panel
             ->id('student')
             ->path('student')
+            ->breadcrumbs(false)
             ->homeUrl(config("app.url")."/student")
             ->colors([
                 'primary' => Color::Amber,
