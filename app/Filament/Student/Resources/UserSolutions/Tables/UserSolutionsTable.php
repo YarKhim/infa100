@@ -20,12 +20,14 @@ class UserSolutionsTable
             ->columns([
                 TextColumn::make('task_id')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('ID задачи'),
 //                TextColumn::make('user_id')
 //                    ->numeric()
 //                    ->sortable(),
                 TextColumn::make('user_answer')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Ваш ответ'),
                 TextColumn::make('state')
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'new' => 'Не решено, можно продолжить решение',
@@ -42,7 +44,8 @@ class UserSolutionsTable
                         'correct_answer_has_been_given' => 'success',
                         'new' => 'waring',
                         'incorrect_answer_given' => 'danger',
-                    }),
+                    })
+                    ->label('Состояние'),
                 //                    ->badge()
 //                    ->color(fn (string $state): string => match ($state) {
 //                        'new'   => 'gray',
@@ -69,7 +72,8 @@ class UserSolutionsTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                ->label('Просмотреть решение'),
 //                EditAction::make(),
             ])
             ->toolbarActions([
