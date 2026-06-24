@@ -15,7 +15,8 @@ class OptionForm
                 Select::make('subject_id')
                     ->relationship('subject', 'subject_name')
                     ->required()
-                    ->label('Предмет'),
+                    ->label('Предмет')
+                    ->searchable(),
                 Select::make('source_id')
                     ->relationship('source',
                     'source_name')

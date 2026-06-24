@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OptionContent extends Model
 {
@@ -10,4 +11,14 @@ class OptionContent extends Model
         'option_id',
         'task_id'
     ];
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class);
+    }
+
+    public function option(): BelongsTo
+    {
+        return $this->belongsTo(Option::class);
+    }
 }

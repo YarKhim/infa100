@@ -11,11 +11,13 @@ class Option extends Model
         'subject_id',
         'source_id'
     ];
-    public  function subject():BelongsTo
+
+    public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
     }
-    public function source():BelongsTo
+
+    public function source(): BelongsTo
     {
         return $this->belongsTo(TaskSource::class);
     }

@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\OptionContents\Schemas;
 
+use App\Models\Option;
+use App\Models\Subject;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -11,12 +14,27 @@ class OptionContentForm
     {
         return $schema
             ->components([
-                TextInput::make('option_id')
+                Select::make('option_id')
+                    ->relationship('option', 'id')
+                    ->getOptionLabelFromRecordUsing(
+                        function (Option $record) {
+                            $option_subject = Option::query()
+                                ->where('id', $record->id)
+                                ->first()
+                                ->subject_id;
+                            $subject_name = Subject::query()
+                                ->where('id', $option_subject)
+                                ->first()
+                                ->subject_name;
+                            return 'ID-' . $record->id . ' Предмет-' . $subject_name;
+                        }
+                    )
+                    ->placeholder('Выберите id варианта'),
+                Select::make('task_id')
+                    ->relationship('task', 'id')
                     ->required()
-                    ->numeric(),
-                TextInput::make('task_id')
-                    ->required()
-                    ->numeric(),
+                    ->placeholder('Выберите id задания')
+
             ]);
     }
 }

@@ -19,7 +19,7 @@ class Task extends Model
         'files_path' =>'array'
     ];
     //Получаем предмет по его id
-    public function subject():BelongsTo
+    public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class, 'id_subject');
     }
