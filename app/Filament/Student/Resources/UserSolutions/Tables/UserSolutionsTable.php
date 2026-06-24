@@ -24,7 +24,14 @@ class UserSolutionsTable
                 TextColumn::make('user_answer')
                     ->searchable(),
                 TextColumn::make('state')
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'new'   => 'gray',
+                        'correct_answer_has_been_given'  => 'success',
+                        'incorrect_answer_given'  => 'danger',
+                        'answer_isnt_given' => 'info',
+                        default     => 'gray',
+                    }),
                 TextColumn::make('solution_files_path')
                     ->searchable(),
                 TextColumn::make('created_at')
@@ -45,7 +52,7 @@ class UserSolutionsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    //DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -36,7 +36,7 @@ class EditUserSolution extends EditRecord
     }
     protected function afterSave():void
     {
-        $task_id  = $this->getRecord()->id;
+        $task_id  = $this->getRecord()->task_id;
         $correct_answer =  Task::where('id', $task_id)->first()->answer;
         $user_answer = $this->getRecord()->user_answer;
         $solution = UserSolution::where('task_id', $task_id)->where('user_id', Auth::id())->first();
