@@ -52,7 +52,7 @@ class UserSolutionsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    //DeleteBulkAction::make(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

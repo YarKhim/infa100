@@ -22,31 +22,29 @@ class EditUserSolution extends EditRecord
             //DeleteAction::make(),
         ];
     }
+
     protected function getSaveFormAction(): \Filament\Actions\Action
     {
         return parent::getSaveFormAction()
             ->label('Сохранить ответ');
     }
+
     protected function beforeSave(): void
     {
-        /**/
-
-        // Например, проверить права или установить значения
         $this->data['state'] = 'answer_isnt_given';
     }
-    protected function afterSave():void
+
+    protected function afterSave(): void
     {
-        $task_id  = $this->getRecord()->task_id;
-        $correct_answer =  Task::where('id', $task_id)->first()->answer;
+        $task_id = $this->getRecord()->task_id;
+        $correct_answer = Task::query()->where('id', $task_id)->first()->answer;
         $user_answer = $this->getRecord()->user_answer;
-        $solution = UserSolution::where('task_id', $task_id)->where('user_id', Auth::id())->first();
-        if($user_answer==$correct_answer) {
+        $solution = UserSolution::query()->where('task_id', $task_id)->where('user_id', Auth::id())->first();
+        if ($user_answer == $correct_answer) {
             $solution->state = 'correct_answer_has_been_given';
-        }
-        else{
+        } else {
             $solution->state = 'incorrect_answer_given';
         }
         $solution->save();
-        //$this->save();
     }
 }

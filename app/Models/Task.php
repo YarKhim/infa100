@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filament\Student\Resources\UserSolutions\UserSolutionResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -28,6 +29,10 @@ class Task extends Model
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
     }
+//    public function usersolution():BelongsTo
+//    {
+//        return $this->;
+//    }
     /*public function condition():BelongsTo
     {
         return $this->belongsTo(TaskCondition::class, 'task');

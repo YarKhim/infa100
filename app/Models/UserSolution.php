@@ -14,6 +14,12 @@ class UserSolution extends Model
         'user_id',
         'state'
     ];
+
+    public const STATE_NEW = 'new' ;
+    public const STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN = 'correct_answer_has_been_given';
+    public const STATE_ANSWER_ISNT_GIVEN = 'answer_isnt_given';
+    public const STATE_INCORRECT_ANSWER_GIVEN = 'incorrect_answer_given';
+
     public function task():BelongsTo
     {
         return $this->belongsTo(Task::class, 'task_id');
@@ -21,5 +27,10 @@ class UserSolution extends Model
     public function source():BelongsTo
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
+    }
+
+    public function isSolved():bool
+    {
+        return in_array($this->state, [self::STATE_INCORRECT_ANSWER_GIVEN, self::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN]);
     }
 }
