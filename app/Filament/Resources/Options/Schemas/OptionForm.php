@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Options\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -11,12 +12,13 @@ class OptionForm
     {
         return $schema
             ->components([
-                TextInput::make('subject_id')
+                Select::make('subject_id')
+                    ->relationship('subject', 'subject_name')
                     ->required()
-                    ->numeric(),
-                TextInput::make('source_id')
-                    ->required()
-                    ->numeric(),
+                    ->label('Предмет'),
+                Select::make('source_id')
+                    ->relationship('source',
+                    'source_name')
             ]);
     }
 }

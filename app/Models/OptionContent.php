@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OptionContent extends Model
 {
-    //
+    protected $fillable = [
+        'option_id',
+        'task_id'
+    ];
 }
