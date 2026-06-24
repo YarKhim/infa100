@@ -18,7 +18,9 @@ class EditUserSolution extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
+            ViewAction::make()
+                ->label('Выйти')
+                ->color('danger'),
             //DeleteAction::make(),
         ];
     }
@@ -26,7 +28,8 @@ class EditUserSolution extends EditRecord
     protected function getSaveFormAction(): \Filament\Actions\Action
     {
         return parent::getSaveFormAction()
-            ->label('Сохранить ответ');
+            ->label('Сохранить ответ')
+            ->color('success');
     }
 
     protected function beforeSave(): void
