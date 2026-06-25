@@ -52,13 +52,14 @@ class OptionResource extends Resource
                     ->label('Задачи')// 'comments' — имя отношения HasMany
                     ->schema([
                         TextEntry::make('task.condition')
+                            ->label('Условие')
                             ->markdown(),
                         Section::make('')->schema([
-                            TextInput::make('Ответ')
-                                ->label('')
-                                ->placeholder('Введите ответ'),
-                            FileUpload::make('Вложения')
-                                ->label('Файлы решения (по необходимости)')
+                            TextInput::make('user_answer')
+                                ->placeholder('Введите ответ')
+                                ->label('Ответ'),
+                            FileUpload::make('solution_files_path')
+                                ->label('Файлы вашего решения (по необходимости)')
                         ])
                     ])
                     ->columnStart(2)
