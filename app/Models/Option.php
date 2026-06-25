@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Option extends Model
 {
@@ -20,5 +21,14 @@ class Option extends Model
     public function source(): BelongsTo
     {
         return $this->belongsTo(TaskSource::class);
+    }
+    public function optioncontent(): HasMany
+    {
+        return $this->hasMany(OptionContent::class);
+    }
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class);
     }
 }
