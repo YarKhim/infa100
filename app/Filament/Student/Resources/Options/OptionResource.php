@@ -14,6 +14,7 @@ use App\Filament\Student\Resources\Options\Tables\OptionsTable;
 use App\Filament\Student\Resources\UserSolutions\UserSolutionResource;
 use App\Models\Option;
 use App\Models\OptionContent;
+use App\Models\OptionSolution;
 use App\Models\Task;
 use App\Models\UserSolution;
 use BackedEnum;
@@ -58,17 +59,34 @@ class OptionResource extends Resource
                                 $all = $livewire->getRecord()->optioncontent;
                                 return '№' . ($all->search($record) + 1) . ' #' . $record->task_id;
                             }),
+                        TextEntry::make('task_state')
+                            ->label('Ответ сохранён')
+                            ->badge()
+                            ->color('info')
+                            ->visible(function (OptionContent $record) {
+                                return OptionSolution::query()
+                                    ->where('option_id', $record->option_id)
+                                    ->where('user_id', Auth::id())
+                                    ->first()
+                                    ->is_solved;
+                            }),
                         Action::make('createSolution')
                             ->label('Решать')
                             ->icon('heroicon-o-pencil')
                             ->color('success')
+                            ->visible(function (OptionContent $record) {
+                                return !OptionSolution::query()
+                                    ->where('option_id', $record->option_id)
+                                    ->where('user_id', Auth::id())
+                                    ->first()
+                                    ->is_solved;
+                            })
                             ->action(function (OptionContent $record) {
                                 $solution = UserSolution::query()
                                     ->where('user_id', Auth::id())
                                     ->where('task_id', $record->task_id)
-                                    ->where('source_id',$record->option_id)
+                                    ->where('source_id', $record->option_id)
                                     ->first();
-
                                 if ($solution == null) {
                                     $solution = UserSolution::create([
                                         'user_id' => Auth::id(),
@@ -88,15 +106,35 @@ class OptionResource extends Resource
                     ->label('Отправить на проверку')
                     ->color('danger')
                     ->requiresConfirmation()
-//                    ->action(function (Option $record){
-//                        dd($record->id);
-//                        $solutions = UserSolution::query()
-//                            ->where('user_id', Auth::id())
-//                            ->where('source_id', $record->id)
-//                            ->get();
-//
-//                        dd($solutions);
-//                    })
+                    ->action(function (Option $record) {
+                        $solutions = UserSolution::query()
+                            ->where('user_id', Auth::id())
+                            ->where('source_id', $record->id)
+                            ->get();
+                        foreach ($solutions as $solution) {
+                            $task = Task::query()
+                                ->where('id', $solution->task_id)
+                                ->first();
+                            if ($task->answer == $solution->user_answer) {
+                                $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
+                            } else {
+                                $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
+                            }
+                            $solution->save();
+                        }
+                        OptionSolution::create([
+                            'user_id' => Auth::id(),
+                            'option_id' => $record->id,
+                            'is_solved' => true
+                        ]);
+                    })
+                    ->visible(function (Option $record) {
+                        return !OptionSolution::query()
+                            ->where('option_id', $record->id)
+                            ->where('user_id', Auth::id())
+                            ->first()
+                            ->is_solved;
+                    })
             ])->columnStart(2)
                 ->columnSpan(3)
 
