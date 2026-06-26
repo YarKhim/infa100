@@ -42,6 +42,7 @@ class ViewTask extends ViewRecord
                     $solution = UserSolution::query()
                         ->where('user_id', Auth::id())
                         ->where('task_id', $record->id)
+//                        ->where('source_id', )
                         ->first();
                     if ($solution == null) {
                         $solution = UserSolution::create([

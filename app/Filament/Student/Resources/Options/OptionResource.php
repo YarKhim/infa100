@@ -68,10 +68,11 @@ class OptionResource extends Resource
                                     ->where('task_id', $record->task_id)
                                     ->where('source_id',$record->option_id)
                                     ->first();
+
                                 if ($solution == null) {
                                     $solution = UserSolution::create([
                                         'user_id' => Auth::id(),
-                                        'task_id' => $record->id,
+                                        'task_id' => $record->task_id,
                                         'user_answer' => '',
                                         'state' => UserSolution::STATE_NEW,
                                         'source_id' => $record->option_id
@@ -87,6 +88,15 @@ class OptionResource extends Resource
                     ->label('Отправить на проверку')
                     ->color('danger')
                     ->requiresConfirmation()
+//                    ->action(function (Option $record){
+//                        dd($record->id);
+//                        $solutions = UserSolution::query()
+//                            ->where('user_id', Auth::id())
+//                            ->where('source_id', $record->id)
+//                            ->get();
+//
+//                        dd($solutions);
+//                    })
             ])->columnStart(2)
                 ->columnSpan(3)
 

@@ -18,6 +18,8 @@ class UserSolutionInfolist
                 TextEntry::make('user_answer'),
                 TextEntry::make('state')
                     ->badge(),
+                TextEntry::make('source_id')
+                    ->badge(),
                 TextEntry::make('solution_files_path')
                     ->placeholder('-'),
                 TextEntry::make('created_at')

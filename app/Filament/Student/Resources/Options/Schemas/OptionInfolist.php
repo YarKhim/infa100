@@ -15,6 +15,8 @@ class OptionInfolist
                     ->label('Subject'),
                 TextEntry::make('source.id')
                     ->label('Source'),
+                TextEntry::make('source_id')
+                    ->label('Source'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
