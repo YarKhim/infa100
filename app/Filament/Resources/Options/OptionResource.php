@@ -12,13 +12,17 @@ use App\Filament\Resources\Options\Tables\OptionsTable;
 use App\Models\Option;
 use App\Models\Task;
 use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Support\View\Components\ButtonComponent;
@@ -48,22 +52,55 @@ class OptionResource extends Resource
                 ])
                     ->columnStart(1)
                     ->columnSpan(1),
+
+
                 RepeatableEntry::make('optioncontent')
-                    ->label('Задачи')// 'comments' — имя отношения HasMany
+                    ->label('Задачи')
                     ->schema([
                         TextEntry::make('task.condition')
                             ->label('Условие')
-                            ->markdown(),
-                        Section::make('')->schema([
-                            TextInput::make('user_answer')
-                                ->placeholder('Введите ответ')
-                                ->label('Ответ'),
-                            FileUpload::make('solution_files_path')
-                                ->label('Файлы вашего решения (по необходимости)')
-                        ])
+                            ->markdown()
+                            ->columnSpan(3),
+                        TextEntry::make('task.answer')
+                            ->label('Ответ')
+                            ->badge()
+                            ->color('info')
+                            ->columnStart(1),
+                        TextEntry::make('task.source.source_name')
+                            ->label('Источник задачи')
+                            ->badge()
+                            ->color('info')
+                            ->columnStart(2)
+//                        Section::make('')->schema([
+//                            TextInput::make('user_answer')
+//                                ->placeholder('Введите ответ')
+//                                ->label('Ответ')
+//                                ->columnStart(1)
+//                                ->columnSpan(4),
+////                            FileUpload::make('solution_files_path')
+////                                ->label('Файлы вашего решения (по необходимости)')
+////                                ->columnStart(1)
+////                                ->columnSpan(4),
+//                            Actions::make([
+//                                Action::make('process')
+//                                    ->label('Обработать')
+//                                    ->action(function (Get $get) {
+//                                        $value = $get('user_answer');
+//                                        dd($value);
+//                                        // делаем что-то с $value
+//                                    })
+//                            ])
+//                        ])
+//                            ->columns(5)
                     ])
+                    ->columns(3)
                     ->columnStart(2)
-                    ->columnSpan(3)
+                    ->columnSpan(3),
+//                Action::make('Send')
+//                    ->label('Отправить на проверку')
+//                    ->icon('heroicon-o-pencil')
+//                    ->color('success')
+//                    ->requiresConfirmation()
             ])
                 ->columns(4)
                 ->columnSpan(2)

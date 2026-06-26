@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Tasks\Schemas;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Tiptap\Nodes\Text;
 
 class TaskInfolist
 {
@@ -13,7 +14,7 @@ class TaskInfolist
         return $schema
             ->components([
                 Section::make(fn ($livewire) => '# ' . $livewire->record->id)->schema([
-                    Section::make()->schema([
+                    Section::make()->shema([
                         TextEntry::make('source.source_name')
                             ->label('Источник')
                             ->badge()
@@ -28,9 +29,8 @@ class TaskInfolist
                             ->columnStart(1),
                         TextEntry::make('answer')
                             ->label('Ответ')
-                            ->columnStart(1)
-
-                    ])->columns(1),
+                            ->columnStart('1')
+                    ])->columnSpan(1),
                     Section::make('Условие')->schema([
                         TextEntry::make('condition')
                             ->label(fn ($livewire) => '№ ' . $livewire->record->task_number_in_the_kim)
