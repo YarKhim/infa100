@@ -22,19 +22,21 @@ class UserSolutionsTable
                     ->numeric()
                     ->sortable()
                     ->label('ID задачи'),
-//                TextColumn::make('user_id')
-//                    ->numeric()
-//                    ->sortable(),
                 TextColumn::make('user_answer')
                     ->searchable()
                     ->label('Ваш ответ'),
+                TextColumn::make('source_id')
+                    ->searchable()
+                    ->label('Источник решения'),
                 TextColumn::make('state')
                     ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'answer_isnt_given' => 'Ответ сохранён',
                         'new' => 'Не решено, можно продолжить решение',
                         'correct_answer_has_been_given' => 'Решено верно',
                         'incorrect_answer_given'  => 'Решено неверно',
                     })
                     ->icon(fn (string $state): Heroicon => match ($state) {
+                        'answer_isnt_given' => Heroicon::CheckCircle,
                         'new' => Heroicon::Clock,
                         'correct_answer_has_been_given' => Heroicon::CheckCircle,
                         'incorrect_answer_given' => Heroicon::XCircle,
@@ -44,6 +46,7 @@ class UserSolutionsTable
                         'correct_answer_has_been_given' => 'success',
                         'new' => 'waring',
                         'incorrect_answer_given' => 'danger',
+                        'answer_isnt_given' => 'info',
                     })
                     ->label('Состояние'),
                 //                    ->badge()

@@ -32,7 +32,7 @@ class UserSolutionForm
                     ])
                         ->columnStart(1)
                         ->columns(1),
-                    Section::make()->shema([
+                    Section::make()->schema([
                         TextEntry::make('task.condition')
                             ->label('Условие')
                             ->columnStart(1)

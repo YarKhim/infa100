@@ -14,7 +14,7 @@ class TaskInfolist
         return $schema
             ->components([
                 Section::make(fn ($livewire) => '# ' . $livewire->record->id)->schema([
-                    Section::make()->shema([
+                    Section::make()->schema([
                         TextEntry::make('source.source_name')
                             ->label('Источник')
                             ->badge()

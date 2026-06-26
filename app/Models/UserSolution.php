@@ -12,13 +12,15 @@ class UserSolution extends Model
         'user_answer',
         'task_id',
         'user_id',
-        'state'
+        'state',
+        'source_id'
     ];
 
     public const STATE_NEW = 'new' ;
     public const STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN = 'correct_answer_has_been_given';
     public const STATE_ANSWER_ISNT_GIVEN = 'answer_isnt_given';
     public const STATE_INCORRECT_ANSWER_GIVEN = 'incorrect_answer_given';
+    public const STATE_ANSWER_GIVEN_AND_SAVED = 'answer_isnt_given';
 
     public function task():BelongsTo
     {
