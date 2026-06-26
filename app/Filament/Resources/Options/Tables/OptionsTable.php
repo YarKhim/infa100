@@ -34,11 +34,14 @@ class OptionsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->color('success')
+                    ->requiresConfirmation(),
+                EditAction::make()
+                    ->color('success')  ,
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

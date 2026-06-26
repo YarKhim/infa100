@@ -21,7 +21,6 @@ class OptionInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
-
             ]);
     }
 }

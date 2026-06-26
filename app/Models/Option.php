@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Option extends Model
 {
@@ -30,5 +31,13 @@ class Option extends Model
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
+    }
+    public function isSolved():bool
+    {
+        return OptionSolution::query()
+            ->where('option_id', $this->id)
+            ->where('user_id', Auth::id())
+            ->first()
+            ->is_solved;
     }
 }
