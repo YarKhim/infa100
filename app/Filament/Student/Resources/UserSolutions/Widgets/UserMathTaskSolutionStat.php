@@ -7,16 +7,11 @@ use App\Models\UserSolution;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
 
-class UserTaskSolutionStat extends ChartWidget
+class UserMathTaskSolutionStat extends ChartWidget
 {
+    protected ?string $heading = 'Статистика решения задач по профильной математике в %';
+    protected int|string|array $columnSpan = '7';
     public ?UserSolution $record = null;
-    protected ?string $heading = 'Статистика решения задач по информатике в %';
-    protected int | string | array $columnSpan = '7';
-    public $subjects_tasks_numbers = [
-        'Inf' => 27,
-        'math' => 19,
-        'rus' => 27
-    ];
 
     protected function getOptions(): array
     {
@@ -26,11 +21,16 @@ class UserTaskSolutionStat extends ChartWidget
                     'max' => 100,
                     'min' => 0, // опционально, можно зафиксировать и минимум
                     'ticks' => [
-                        'stepSize' => 25, // шаг делений, тоже опционально
+                        'stepSize' => 20, // шаг делений, тоже опционально
                     ],
                 ],
             ],
         ];
+    }
+
+    protected function getHeight(): string
+    {
+        return '50vh';
     }
 
     protected function getData(): array
@@ -52,10 +52,10 @@ class UserTaskSolutionStat extends ChartWidget
         $all_solutions = [];
         foreach ($users_solutions as $solution) {
             $task_subject = Task::query()
-                ->where('id',  $solution->task_id)
+                ->where('id', $solution->task_id)
                 ->first()
                 ->id_subject;
-            if($task_subject==1){
+            if ($task_subject == 3) {
                 $task_number = Task::query()
                     ->where('id', $solution->task_id)
                     ->first()
@@ -85,7 +85,7 @@ class UserTaskSolutionStat extends ChartWidget
                     'data' => array_values($statistic),
                 ],
             ],
-            'labels' => range(1, 27)
+            'labels' => range(1, 19),
 
         ];
     }

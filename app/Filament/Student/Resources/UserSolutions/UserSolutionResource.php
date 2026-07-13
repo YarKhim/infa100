@@ -10,6 +10,7 @@ use App\Filament\Student\Resources\UserSolutions\Schemas\UserSolutionForm;
 use App\Filament\Student\Resources\UserSolutions\Schemas\UserSolutionInfolist;
 use App\Filament\Student\Resources\UserSolutions\Tables\UserSolutionsTable;
 use App\Filament\Student\Resources\UserSolutions\Widgets\UserTaskSolutionStat;
+use App\Filament\Student\Resources\UserSolutions\Widgets\UserMathTaskSolutionStat;
 use App\Models\UserSolution;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -43,6 +44,7 @@ class UserSolutionResource extends Resource
     {
         return [
             UserTaskSolutionStat::class,
+            UserMathTaskSolutionStat::class
         ];
     }
 
