@@ -78,14 +78,22 @@ class UserMathTaskSolutionStat extends ChartWidget
             }
         }
 
+        $get_color = function ($value) {
+            if ($value <= 50) return '#ef4444';
+            elseif ($value > 50 && $value <= 85) return '#f59e0b';
+            elseif ($value > 85) return '#10b981';
+            return '#ef4444';
+        };
+        $colors = array_map($get_color, array_values($statistic));
         return [
             'datasets' => [
                 [
                     'label' => 'Статистика',
                     'data' => array_values($statistic),
+                    'backgroundColor' => $colors,
                 ],
             ],
-            'labels' => range(1, 19),
+            'labels' => range(1, 19)
 
         ];
     }

@@ -11,7 +11,7 @@ class UserTaskSolutionStat extends ChartWidget
 {
     public ?UserSolution $record = null;
     protected ?string $heading = 'Статистика решения задач по информатике в %';
-    protected int | string | array $columnSpan = '7';
+    protected int|string|array $columnSpan = '7';
     public $subjects_tasks_numbers = [
         'Inf' => 27,
         'math' => 19,
@@ -24,9 +24,9 @@ class UserTaskSolutionStat extends ChartWidget
             'scales' => [
                 'y' => [
                     'max' => 100,
-                    'min' => 0, // опционально, можно зафиксировать и минимум
+                    'min' => 0,
                     'ticks' => [
-                        'stepSize' => 25, // шаг делений, тоже опционально
+                        'stepSize' => 25,
                     ],
                 ],
             ],
@@ -52,10 +52,10 @@ class UserTaskSolutionStat extends ChartWidget
         $all_solutions = [];
         foreach ($users_solutions as $solution) {
             $task_subject = Task::query()
-                ->where('id',  $solution->task_id)
+                ->where('id', $solution->task_id)
                 ->first()
                 ->id_subject;
-            if($task_subject==1){
+            if ($task_subject == 1) {
                 $task_number = Task::query()
                     ->where('id', $solution->task_id)
                     ->first()
@@ -77,12 +77,19 @@ class UserTaskSolutionStat extends ChartWidget
                 $statistic[$task_number] = 0;
             }
         }
-
+        $get_color = function ($value) {
+            if ($value <= 50) return '#ef4444';
+            elseif ($value > 50 && $value <= 85) return '#f59e0b';
+            elseif ($value > 85) return '#10b981';
+            return '#ef4444';
+        };
+        $colors = array_map($get_color, array_values($statistic));
         return [
             'datasets' => [
                 [
                     'label' => 'Статистика',
                     'data' => array_values($statistic),
+                    'backgroundColor' => $colors,
                 ],
             ],
             'labels' => range(1, 27)
