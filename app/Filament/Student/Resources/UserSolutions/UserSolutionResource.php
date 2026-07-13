@@ -9,6 +9,7 @@ use App\Filament\Student\Resources\UserSolutions\Pages\ViewUserSolution;
 use App\Filament\Student\Resources\UserSolutions\Schemas\UserSolutionForm;
 use App\Filament\Student\Resources\UserSolutions\Schemas\UserSolutionInfolist;
 use App\Filament\Student\Resources\UserSolutions\Tables\UserSolutionsTable;
+use App\Filament\Student\Resources\UserSolutions\Widgets\UserTaskSolutionStat;
 use App\Models\UserSolution;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -19,6 +20,7 @@ use Filament\Tables\Table;
 class UserSolutionResource extends Resource
 {
     protected static ?string $model = UserSolution::class;
+
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -35,6 +37,13 @@ class UserSolutionResource extends Resource
     public static function table(Table $table): Table
     {
         return UserSolutionsTable::configure($table);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            UserTaskSolutionStat::class,
+        ];
     }
 
     public static function getRelations(): array

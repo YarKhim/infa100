@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Filament\Student\Resources\UserSolutions\Widgets;
+
+use App\Models\Task;
+use App\Models\UserSolution;
+use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
+
+class UserTaskSolutionStat extends ChartWidget
+{
+    public ?UserSolution $record = null;
+    protected ?string $heading = 'User Task Solution Stat';
+//    protected int | string | array $columnSpan = '2';
+    public $subjects_tasks_numbers = [
+        'Информатика' => 27,
+        'Математика' => 19,
+        'Руссикй язык' => 27
+    ];
+
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'y' => [
+                    'max' => 100,
+                    'min' => 0, // опционально, можно зафиксировать и минимум
+                    'ticks' => [
+                        'stepSize' => 20, // шаг делений, тоже опционально
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    protected function getData(): array
+    {
+        $user_id = Auth::id();
+        $users_solutions = UserSolution::query()
+            ->where('user_id', $user_id)
+            ->get();
+        $subject_id = $users_solutions[0]->sunject_id;
+        $labels = [];
+        $statistic = [];
+        for ($i = 1; $i <= $subject_id; $i++) {
+            $labels[$i] = $i;
+        }
+        for ($i = 0; $i < $subject_id; $i++) {
+            $statistic[$i] = 0;
+        }
+        $right_solutions = [];
+        $all_solutions = [];
+        foreach ($users_solutions as $solution) {
+            $task_subject = Task::query()
+                ->where('id',  $solution->task_id)
+                ->first()
+                ->id_subject;
+            if($task_subject==1){
+                $task_number = Task::query()
+                    ->where('id', $solution->task_id)
+                    ->first()
+                    ->task_number_in_the_kim;
+                if (isset($all_solutions[$task_number])) {
+                    $all_solutions[$task_number]++;
+                } else $all_solutions[$task_number] = 1;
+                if ($solution->state == 'correct_answer_has_been_given') {
+                    if (isset($right_solutions[$task_number])) {
+                        $right_solutions[$task_number]++;
+                    } else $right_solutions[$task_number] = 1;
+                }
+            }
+
+        }
+        foreach (range(1, 19) as $task_number) {
+            if (isset($right_solutions[$task_number]) && isset($all_solutions[$task_number])) $statistic[$task_number] = $right_solutions[$task_number] * 100 / $all_solutions[$task_number];
+            else {
+                $statistic[$task_number] = 0;
+            }
+        }
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Статистика',
+                    'data' => array_values($statistic),
+                ],
+            ],
+            'labels' => range(1, 19)
+
+        ];
+    }
+
+    protected function getType(): string
+    {
+        return 'bar';
+    }
+}

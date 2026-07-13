@@ -59,28 +59,28 @@ class OptionResource extends Resource
                                 $all = $livewire->getRecord()->optioncontent;
                                 return '№' . ($all->search($record) + 1) . ' #' . $record->task_id;
                             }),
-                        TextEntry::make('task_state')
-                            ->label('Ответ сохранён')
-                            ->badge()
-                            ->color('info')
-                            ->visible(function (OptionContent $record) {
-                                return OptionSolution::query()
-                                    ->where('option_id', $record->option_id)
-                                    ->where('user_id', Auth::id())
-                                    ->first()
-                                    ->is_solved;
-                            }),
+//                        TextEntry::make('task_state')
+//                            ->label('Ответ сохранён')
+//                            ->badge()
+//                            ->color('info'),
+//                            ->visible(function (OptionContent $record) {
+//                                return OptionSolution::query()
+//                                    ->where('option_id', $record->option_id)
+//                                    ->where('user_id', Auth::id())
+//                                    ->first()
+//                                    ->is_solved;
+//                            }),
                         Action::make('createSolution')
                             ->label('Решать')
                             ->icon('heroicon-o-pencil')
                             ->color('success')
-                            ->visible(function (OptionContent $record) {
-                                return !OptionSolution::query()
-                                    ->where('option_id', $record->option_id)
-                                    ->where('user_id', Auth::id())
-                                    ->first()
-                                    ->is_solved;
-                            })
+//                            ->visible(function (OptionContent $record) {
+//                                return !OptionSolution::query()
+//                                    ->where('option_id', $record->option_id)
+//                                    ->where('user_id', Auth::id())
+//                                    ->first()
+//                                    ->is_solved;
+//                            })
                             ->action(function (OptionContent $record) {
                                 $solution = UserSolution::query()
                                     ->where('user_id', Auth::id())
@@ -128,13 +128,13 @@ class OptionResource extends Resource
                             'is_solved' => true
                         ]);
                     })
-                    ->visible(function (Option $record) {
-                        return !OptionSolution::query()
-                            ->where('option_id', $record->id)
-                            ->where('user_id', Auth::id())
-                            ->first()
-                            ->is_solved;
-                    })
+//                    ->visible(function (Option $record) {
+//                        return !OptionSolution::query()
+//                            ->where('option_id', $record->id)
+//                            ->where('user_id', Auth::id())
+//                            ->first()
+//                            ->is_solved;
+//                    })
             ])->columnStart(2)
                 ->columnSpan(3)
 

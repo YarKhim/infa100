@@ -2,6 +2,7 @@
 
 namespace App\Filament\Student\Resources\UserSolutions\Tables;
 
+use App\Filament\Student\Resources\UserSolutions\Widgets\UserTaskSolutionStat;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Auth;
 
 class UserSolutionsTable
 {
+//    protected function getHeaderWidgets(): array
+//    {
+//        return [
+//            UserTaskSolutionStat::class,
+//        ];
+//    }
+
     public static function configure(Table $table): Table
     {
         return $table
@@ -29,20 +37,20 @@ class UserSolutionsTable
                     ->searchable()
                     ->label('Источник решения'),
                 TextColumn::make('state')
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
                         'answer_isnt_given' => 'Ответ сохранён',
                         'new' => 'Не решено, можно продолжить решение',
                         'correct_answer_has_been_given' => 'Решено верно',
-                        'incorrect_answer_given'  => 'Решено неверно',
+                        'incorrect_answer_given' => 'Решено неверно',
                     })
-                    ->icon(fn (string $state): Heroicon => match ($state) {
+                    ->icon(fn(string $state): Heroicon => match ($state) {
                         'answer_isnt_given' => Heroicon::CheckCircle,
                         'new' => Heroicon::Clock,
                         'correct_answer_has_been_given' => Heroicon::CheckCircle,
                         'incorrect_answer_given' => Heroicon::XCircle,
                         default => Heroicon::QuestionMarkCircle,
                     })
-                    ->iconColor(fn (string $state): string => match ($state) {
+                    ->iconColor(fn(string $state): string => match ($state) {
                         'correct_answer_has_been_given' => 'success',
                         'new' => 'waring',
                         'incorrect_answer_given' => 'danger',
@@ -68,7 +76,7 @@ class UserSolutionsTable
 //                    ->sortable()
 //                    ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->modifyQueryUsing(function (Builder $query){
+            ->modifyQueryUsing(function (Builder $query) {
                 $query->where('user_id', Auth::id());
             })
             ->filters([
@@ -76,7 +84,7 @@ class UserSolutionsTable
             ])
             ->recordActions([
                 ViewAction::make()
-                ->label('Просмотреть решение'),
+                    ->label('Просмотреть решение'),
 //                EditAction::make(),
             ])
             ->toolbarActions([
