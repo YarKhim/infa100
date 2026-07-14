@@ -25,7 +25,7 @@ class UserSolutionsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(components: [
                 TextColumn::make('task_id')
                     ->numeric()
                     ->sortable()

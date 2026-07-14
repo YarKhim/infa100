@@ -1,35 +1,29 @@
 <?php
 
-namespace App\Filament\Student\Resources\OptionSolutions\Tables;
+namespace App\Filament\Resources\SubjectPointsTransfers\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class OptionSolutionsTable
+class SubjectPointsTransfersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
+                TextColumn::make('subject_id')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('primary_score')
+                TextColumn::make('primary_sum')
                     ->numeric()
-                    ->sortable()
-                    ->label('Первичный балл'),
-                TextColumn::make('secondary_score')
+                    ->sortable(),
+                TextColumn::make('secondary_sum')
                     ->numeric()
-                    ->sortable()
-                    ->label('Вторичный балл'),
-                IconColumn::make('is_solved')
-                    ->boolean()
-                    ->label('Статус'),
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

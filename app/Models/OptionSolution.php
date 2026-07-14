@@ -9,7 +9,9 @@ class OptionSolution extends Model
     protected $fillable = [
         'user_id',
         'is_solved',
-        'option_id'
+        'option_id',
+        'primary_score',
+        'secondary_score'
     ];
 
 }

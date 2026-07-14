@@ -187,23 +187,19 @@ class OptionResource extends Resource
                             $task = Task::query()
                                 ->where('id', $solution->task_id)
                                 ->first();
-//                            if(isset($solution->user_answer)){
                             if ($task->answer == $solution->user_answer) {
                                 $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
                                 $sum_points += $points_per_task[$subject_id][$task->task_number_in_the_kim];
                             } else {
                                 $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
                             }
-//                            }
-//                            else{
-//                                $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
-//                            }
                             $solution->save();
                         }
                         //dd($sum_points);
                         OptionSolution::create([
                             'user_id' => Auth::id(),
                             'option_id' => $record->id,
+                            'primary_score' => $sum_points,
                             'is_solved' => true
                         ]);
 
