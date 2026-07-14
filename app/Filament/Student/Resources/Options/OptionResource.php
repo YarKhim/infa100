@@ -33,6 +33,37 @@ class OptionResource extends Resource
     protected static ?string $model = Option::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static array $points_per_task = [
+        1 => [
+            1 => 1,
+            2 => 1,
+            3 => 1,
+            4 => 1,
+            5 => 1,
+            6 => 1,
+            7 => 1,
+            8 => 1,
+            9 => 1,
+            10 => 1,
+            11 => 1,
+            12 => 1,
+            13 => 1,
+            14 => 1,
+            15 => 1,
+            16 => 1,
+            17 => 1,
+            18 => 1,
+            19 => 1,
+            20 => 1,
+            21 => 1,
+            22 => 1,
+            23 => 1,
+            24 => 1,
+            25 => 1,
+            26 => 2,
+            27 => 2,
+        ],
+    ];
 
     public static function form(Schema $schema): Schema
     {
@@ -41,16 +72,24 @@ class OptionResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
-//        return OptionInfolist::configure($schema);
         return $schema->schema([
             Section::make('Информация')->schema([
                 TextEntry::make('source.source_name')
                     ->label('Источник Варианта')
+                    ->badge(),
+                TextEntry::make('info')
+                    ->label('Вы уже решали данный вариат')
                     ->badge()
+                    ->visible(function ($record) {
+                        $option_solution = OptionSolution::query()
+                            ->where('option_id', $record->id)
+                            ->first();
+                        return isset($option_solution) && $option_solution->is_solved;
+                    })
             ])
                 ->columnStart(1)
                 ->columnSpan(1),
-            Section::make('Задачи')->schema([
+            Section::make('Задачи бебе')->schema([
                 RepeatableEntry::make('optioncontent')
                     ->label('Задачи')
                     ->schema([
@@ -107,26 +146,67 @@ class OptionResource extends Resource
                     ->color('danger')
                     ->requiresConfirmation()
                     ->action(function (Option $record) {
+                        $points_per_task = [
+                            1 => [
+                                1 => 1,
+                                2 => 1,
+                                3 => 1,
+                                4 => 1,
+                                5 => 1,
+                                6 => 1,
+                                7 => 1,
+                                8 => 1,
+                                9 => 1,
+                                10 => 1,
+                                11 => 1,
+                                12 => 1,
+                                13 => 1,
+                                14 => 1,
+                                15 => 1,
+                                16 => 1,
+                                17 => 1,
+                                18 => 1,
+                                19 => 1,
+                                20 => 1,
+                                21 => 1,
+                                22 => 1,
+                                23 => 1,
+                                24 => 1,
+                                25 => 1,
+                                26 => 2,
+                                27 => 2,
+                            ],
+                        ];
+                        $sum_points = 0;
                         $solutions = UserSolution::query()
                             ->where('user_id', Auth::id())
                             ->where('source_id', $record->id)
                             ->get();
+                        $subject_id = $record->subject_id;
                         foreach ($solutions as $solution) {
                             $task = Task::query()
                                 ->where('id', $solution->task_id)
                                 ->first();
+//                            if(isset($solution->user_answer)){
                             if ($task->answer == $solution->user_answer) {
                                 $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
+                                $sum_points += $points_per_task[$subject_id][$task->task_number_in_the_kim];
                             } else {
                                 $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
                             }
+//                            }
+//                            else{
+//                                $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
+//                            }
                             $solution->save();
                         }
+                        //dd($sum_points);
                         OptionSolution::create([
                             'user_id' => Auth::id(),
                             'option_id' => $record->id,
                             'is_solved' => true
                         ]);
+
                     })
 //                    ->visible(function (Option $record) {
 //                        return !OptionSolution::query()
@@ -137,7 +217,13 @@ class OptionResource extends Resource
 //                    })
             ])->columnStart(2)
                 ->columnSpan(3)
-
+                ->visible(function ($record) {
+                    $option_solution = OptionSolution::query()
+                        ->where('option_id', $record->id)
+                        ->first();
+                    //dd($option_solution->is_solved);
+                    return !isset($option_solution) || !$option_solution->is_solved;
+                })
         ])
             ->columns(4);
     }

@@ -10,8 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class UserMathTaskSolutionStat extends ChartWidget
 {
     protected ?string $heading = 'Статистика решения задач по профильной математике в %';
+    protected ?string $maxHeight = '40vh';
     protected int|string|array $columnSpan = '7';
     public ?UserSolution $record = null;
+    public $subjects_tasks_numbers = [
+        1 => 27,
+        3 => 19,
+    ];
 
     protected function getOptions(): array
     {
@@ -19,18 +24,23 @@ class UserMathTaskSolutionStat extends ChartWidget
             'scales' => [
                 'y' => [
                     'max' => 100,
-                    'min' => 0, // опционально, можно зафиксировать и минимум
+                    'min' => 0,
                     'ticks' => [
-                        'stepSize' => 20, // шаг делений, тоже опционально
+                        'stepSize' => 25,
                     ],
                 ],
             ],
-        ];
-    }
+            'animation' => [
+                'duration' => 800, // длительность в миллисекундах
+                'easing' => 'linear', // 'linear', 'easeInQuad', 'easeOutQuad', 'easeInOutQuad' и др.
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ]
+            ]
 
-    protected function getHeight(): string
-    {
-        return '50vh';
+        ];
     }
 
     protected function getData(): array

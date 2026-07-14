@@ -21,7 +21,7 @@ class ListUserSolutions extends ListRecords
 
     public function getHeaderWidgetsColumns(): int|array
     {
-        return 9; // Общая сетка из 12 колонок
+        return 9;
     }
 
     protected function getHeaderWidgets(): array

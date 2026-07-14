@@ -33,9 +33,9 @@ class UserSolutionsTable
                 TextColumn::make('user_answer')
                     ->searchable()
                     ->label('Ваш ответ'),
-                TextColumn::make('source_id')
-                    ->searchable()
-                    ->label('Источник решения'),
+//                TextColumn::make('source_id')
+//                    ->searchable()
+//                    ->label('Источник решения'),
                 TextColumn::make('state')
                     ->formatStateUsing(fn(string $state): string => match ($state) {
                         'answer_isnt_given' => 'Ответ сохранён',

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class UserTaskSolutionStat extends ChartWidget
 {
     public ?UserSolution $record = null;
+    protected ?string $maxHeight = '40vh';
     protected ?string $heading = 'Статистика решения задач по информатике в %';
     protected int|string|array $columnSpan = '7';
     public $subjects_tasks_numbers = [
@@ -30,6 +31,16 @@ class UserTaskSolutionStat extends ChartWidget
                     ],
                 ],
             ],
+            'animation' => [
+                'duration' => 800, // длительность в миллисекундах
+                'easing' => 'linear', // 'linear', 'easeInQuad', 'easeOutQuad', 'easeInOutQuad' и др.
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ]
+            ]
+
         ];
     }
 
@@ -71,7 +82,8 @@ class UserTaskSolutionStat extends ChartWidget
             }
 
         }
-        foreach (range(1, 19) as $task_number) {
+
+        foreach (range(1, 27) as $task_number) {
             if (isset($right_solutions[$task_number]) && isset($all_solutions[$task_number])) $statistic[$task_number] = $right_solutions[$task_number] * 100 / $all_solutions[$task_number];
             else {
                 $statistic[$task_number] = 0;
