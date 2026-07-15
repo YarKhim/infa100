@@ -156,6 +156,7 @@ class OptionResource extends Resource
                                         'state' => UserSolution::STATE_NEW,
                                         'source_id' => $record->option_id
                                     ]);
+                                    $solution->save();
                                 }
                                 return redirect()->to(
                                     UserSolutionResource::getUrl('edit', ['record' => $solution])

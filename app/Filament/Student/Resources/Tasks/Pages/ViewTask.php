@@ -26,12 +26,13 @@ class ViewTask extends ViewRecord
                     return UserSolution::query()
                         ->where('user_id', Auth::id())
                         ->where('task_id', $record->id)
+                        ->where('source_id', null)
                         ->count() ? 'Решали ранее' : 'Начать решение';
                 })
                 ->icon('heroicon-o-pencil')
                 ->color('success')
                 ->visible(function (Task $record) {
-                    $userSolution =  UserSolution::query()
+                    $userSolution = UserSolution::query()
                         ->where('user_id', Auth::id())
                         ->where('task_id', $record->id)
                         ->first();
@@ -39,10 +40,14 @@ class ViewTask extends ViewRecord
                 })
                 ->action(function (Task $record) {
                     // Создаём или получаем существующее решение
+//                    dd($previous = url()->previous());
+//                    if($previous = url()->previous()){
+//
+//                    }
                     $solution = UserSolution::query()
                         ->where('user_id', Auth::id())
                         ->where('task_id', $record->id)
-//                        ->where('source_id', )
+                        ->where('source_id', null)
                         ->first();
                     if ($solution == null) {
                         $solution = UserSolution::create([

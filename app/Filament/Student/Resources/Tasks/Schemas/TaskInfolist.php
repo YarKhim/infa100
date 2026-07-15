@@ -24,6 +24,7 @@ class TaskInfolist
                                 return UserSolution::query()
                                     ->where('user_id', Auth::id())
                                     ->where('task_id', $record->id)
+                                    ->where('source_id', null)
                                     ->count() ? 'Вы уже решали эту задачу ранее' : 'Задача ещё не решена вами';
                             }),
                         TextEntry::make('source.source_name')
