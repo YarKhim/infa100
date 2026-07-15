@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\SubjectPointsTransfers\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -11,9 +12,12 @@ class SubjectPointsTransferForm
     {
         return $schema
             ->components([
-                TextInput::make('subject_id')
+                Select::make('subject_id')
+                    ->relationship('subject', 'subject_name')
                     ->required()
-                    ->numeric(),
+                    ->label('Выбрать предмет')
+                    ->placeholder('Выбрать предмет')
+                    ->default(3),
                 TextInput::make('primary_sum')
                     ->required()
                     ->numeric(),

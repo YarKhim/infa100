@@ -15,6 +15,7 @@ use App\Filament\Student\Resources\UserSolutions\UserSolutionResource;
 use App\Models\Option;
 use App\Models\OptionContent;
 use App\Models\OptionSolution;
+use App\Models\SubjectPointsTransfer;
 use App\Models\Task;
 use App\Models\UserSolution;
 use BackedEnum;
@@ -63,6 +64,27 @@ class OptionResource extends Resource
             26 => 2,
             27 => 2,
         ],
+        3 => [
+            1 => 1,
+            2 => 1,
+            3 => 1,
+            4 => 1,
+            5 => 1,
+            6 => 1,
+            7 => 1,
+            8 => 1,
+            9 => 1,
+            10 => 1,
+            11 => 1,
+            12 => 1,
+            13 => 2,
+            14 => 3,
+            15 => 2,
+            16 => 2,
+            17 => 3,
+            18 => 4,
+            19 => 4,
+        ]
     ];
 
     public static function form(Schema $schema): Schema
@@ -89,7 +111,7 @@ class OptionResource extends Resource
             ])
                 ->columnStart(1)
                 ->columnSpan(1),
-            Section::make('Задачи бебе')->schema([
+            Section::make('Задачи')->schema([
                 RepeatableEntry::make('optioncontent')
                     ->label('Задачи')
                     ->schema([
@@ -196,10 +218,16 @@ class OptionResource extends Resource
                             $solution->save();
                         }
                         //dd($sum_points);
+                        $secondary_score = SubjectPointsTransfer::query()->where('subject_id', $subject_id)
+                            ->where('primary_sum', $sum_points)
+                            ->first()
+                            ->secondary_sum;
+                        //dd($secondary_score);
                         OptionSolution::create([
                             'user_id' => Auth::id(),
                             'option_id' => $record->id,
                             'primary_score' => $sum_points,
+                            'secondary_score' => $secondary_score,
                             'is_solved' => true
                         ]);
 
@@ -217,7 +245,6 @@ class OptionResource extends Resource
                     $option_solution = OptionSolution::query()
                         ->where('option_id', $record->id)
                         ->first();
-                    //dd($option_solution->is_solved);
                     return !isset($option_solution) || !$option_solution->is_solved;
                 })
         ])
