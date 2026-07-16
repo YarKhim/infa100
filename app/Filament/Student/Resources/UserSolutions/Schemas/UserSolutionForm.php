@@ -39,15 +39,14 @@ class UserSolutionForm
                             Action::make('Download')
                                 ->label('Скачать')
                                 ->action(fn($record) => Storage::download(Task::query()->where('id', $record->task_id)
-                                        ->first()
-                                        ->files_path))
+                                    ->first()
+                                    ->files_path))
                                 ->button(),
                         ])
-                        ->label('Файлы к задаче')
-
-//                        FileUpload::make('attachments')
-//                            ->enableDownload() // Добавляет кнопку скачивания для каждого файла
-//                            ->enableOpen()     // Добавляет кнопку открытия/просмотра
+                            ->label('Файлы к задаче')
+                            ->visible(fn($record) => !Task::query()->where('id', $record->task_id)
+                                ->first()
+                                ->files_path==null)
                     ])
                         ->columnStart(1)
                         ->columns(1),
@@ -59,10 +58,16 @@ class UserSolutionForm
                         TextInput::make('user_answer')
                             ->required()
                             ->label('Ваш ответ')
-                            ->placeholder('Введите ответ'),
+                            ->placeholder('Введите ответ')
+                            ->visible(function ($record) {
+                                return Task::query()
+                                        ->where('id', $record->task_id)
+                                        ->first()
+                                        ->task_type == 'Задание с кратким ответом';
+                            }),
                         FileUpload::make('solution_files_path')
-                            ->label('Приложите фалы решения при необходимости и отредактируйте их')
-                            ->maxSize(5000)
+                            ->label('Приложите фалы решения при необходимости, максимальный размер - 20 МБайт')
+                            ->maxSize(20000)
                             ->imageEditor()
                             ->multiple()
                             ->image(),
@@ -75,7 +80,6 @@ class UserSolutionForm
                                     ->first()
                                     ->id_subject;
                                 return $subject_id == 1;
-                                //dd($record->task_id);
                             }),
                     ])
                         ->columnStart(2)
