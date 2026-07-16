@@ -3,14 +3,17 @@
 namespace App\Filament\Student\Resources\UserSolutions\Schemas;
 
 use App\Models\Task;
+use Filament\Actions\Action;
 use Filament\Forms\Components\CodeEditor;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class UserSolutionForm
 {
@@ -32,6 +35,19 @@ class UserSolutionForm
                             ->label('Уровень сложности')
                             ->badge()
                             ->columnStart(1),
+                        Actions::make([
+                            Action::make('Download')
+                                ->label('Скачать')
+                                ->action(fn($record) => Storage::download(Task::query()->where('id', $record->task_id)
+                                        ->first()
+                                        ->files_path))
+                                ->button(),
+                        ])
+                        ->label('Файлы к задаче')
+
+//                        FileUpload::make('attachments')
+//                            ->enableDownload() // Добавляет кнопку скачивания для каждого файла
+//                            ->enableOpen()     // Добавляет кнопку открытия/просмотра
                     ])
                         ->columnStart(1)
                         ->columns(1),

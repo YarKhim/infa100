@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+
 #condition
 class TaskForm
 {
@@ -42,8 +43,9 @@ class TaskForm
                     ->required()
                     ->string()
                     ->label('Правильный ответ'),
-                FileUpload::make('file_path')
+                FileUpload::make('files_path')
                     ->disk('public')
+//                    ->withFileSize(false)
                     ->directory('tasks_files')
                     ->placeholder('Наибольший размер файла - 20Мб')
                     ->label('Файлы к задаче'),
