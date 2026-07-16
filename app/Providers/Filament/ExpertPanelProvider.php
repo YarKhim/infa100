@@ -26,6 +26,7 @@ class ExpertPanelProvider extends PanelProvider
         return $panel
             ->id('expert')
             ->path('expert')
+            ->homeUrl(config("app.url")."/expert")
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -33,6 +34,7 @@ class ExpertPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Expert/Pages'), for: 'App\Filament\Expert\Pages')
             ->pages([
                 Dashboard::class,
+
             ])
             ->discoverWidgets(in: app_path('Filament/Expert/Widgets'), for: 'App\Filament\Expert\Widgets')
             ->widgets([

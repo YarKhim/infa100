@@ -44,7 +44,7 @@ class TaskForm
                     ->label('Правильный ответ'),
                 FileUpload::make('file_path')
                     ->disk('public')
-                    ->directory('/tasks_files')
+                    ->directory('tasks_files')
                     ->placeholder('Наибольший размер файла - 20Мб')
                     ->label('Файлы к задаче'),
                 Textarea::make('condition')

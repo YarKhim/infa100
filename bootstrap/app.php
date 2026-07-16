@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         //
+        $middleware->trustProxies(at: '*');
         /*$middleware->trustProxies(
             at: '172.23.73.39', // или ['*'] — все прокси
             headers: Request::HEADER_X_FORWARDED_FOR |
