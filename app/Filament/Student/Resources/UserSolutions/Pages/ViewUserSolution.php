@@ -16,6 +16,7 @@ class ViewUserSolution extends ViewRecord
     {
         return [
             //UserTaskSolutionStat::class,
+
         ];
     }
 
