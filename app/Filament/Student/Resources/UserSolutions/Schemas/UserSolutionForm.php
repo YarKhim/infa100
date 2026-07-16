@@ -42,11 +42,13 @@ class UserSolutionForm
                             ->label('Ваш ответ')
                             ->placeholder('Введите ответ'),
                         FileUpload::make('solution_files_path')
-                            ->label('Приложите фалы решения при необходимости')
-
+                            ->label('Приложите фалы решения при необходимости и отредактируйте их')
+                            ->maxSize(5000)
+                            ->imageEditor()
+                            ->multiple()
                     ])
                         ->columnStart(2)
-                        ->columnSpan    (2)
+                        ->columnSpan(2)
                 ])
                     ->columnSpan(2)
                     ->columns(3)

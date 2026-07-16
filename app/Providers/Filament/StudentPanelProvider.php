@@ -19,7 +19,11 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
+//use Daikazu\FilamentLightbox\LightBoxPlugin;
+
+//use SolutionForest\FilamentSimpleLightbox\SimpleLightBoxPlugin;
 class StudentPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -28,7 +32,7 @@ class StudentPanelProvider extends PanelProvider
             ->id('student')
             ->path('student')
             ->breadcrumbs(false)
-            ->homeUrl(config("app.url")."/student")
+            ->homeUrl(config("app.url") . "/student")
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -54,8 +58,11 @@ class StudentPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->plugin(SimpleLightBoxPlugin::make())
             ->authMiddleware([
                 Authenticate::class,
             ]);
+        // ->plugin(SimpleLightBoxPlugin::make());
+//            ->plugin(LightBoxPlugin::make());
     }
 }

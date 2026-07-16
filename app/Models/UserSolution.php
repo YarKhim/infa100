@@ -13,25 +13,29 @@ class UserSolution extends Model
         'task_id',
         'user_id',
         'state',
-        'source_id'
+        'source_id',
+        'solution_files_path'
     ];
-
-    public const STATE_NEW = 'new' ;
+    protected $casts = [
+        'solution_files_path' => 'array', // Поле для хранения ссылок на файлы
+    ];
+    public const STATE_NEW = 'new';
     public const STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN = 'correct_answer_has_been_given';
     public const STATE_ANSWER_ISNT_GIVEN = 'answer_isnt_given';
     public const STATE_INCORRECT_ANSWER_GIVEN = 'incorrect_answer_given';
     public const STATE_ANSWER_GIVEN_AND_SAVED = 'answer_isnt_given';
 
-    public function task():BelongsTo
+    public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class, 'task_id');
     }
-    public function source():BelongsTo
+
+    public function source(): BelongsTo
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
     }
 
-    public function isSolved():bool
+    public function isSolved(): bool
     {
         return in_array($this->state, [self::STATE_INCORRECT_ANSWER_GIVEN, self::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN]);
     }

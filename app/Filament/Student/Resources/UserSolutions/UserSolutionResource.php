@@ -32,6 +32,7 @@ class UserSolutionResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
+        //dd($schema->getRecord()->solution_files_path);
         return UserSolutionInfolist::configure($schema);
     }
 
