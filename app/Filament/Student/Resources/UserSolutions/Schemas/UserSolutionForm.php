@@ -2,8 +2,11 @@
 
 namespace App\Filament\Student\Resources\UserSolutions\Schemas;
 
+use App\Models\Task;
+use Filament\Forms\Components\CodeEditor;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
@@ -46,6 +49,18 @@ class UserSolutionForm
                             ->maxSize(5000)
                             ->imageEditor()
                             ->multiple()
+                            ->image(),
+                        CodeEditor::make('user_code')
+                            ->wrap()
+                            ->language(\Filament\Forms\Components\CodeEditor\Enums\Language::Python)
+                            ->label('Вставьте свой код при необходимости')
+                            ->visible(function ($record) {
+                                $subject_id = Task::query()->where('id', $record->task_id)
+                                    ->first()
+                                    ->id_subject;
+                                return $subject_id == 1;
+                                //dd($record->task_id);
+                            }),
                     ])
                         ->columnStart(2)
                         ->columnSpan(2)

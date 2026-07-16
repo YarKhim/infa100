@@ -14,10 +14,12 @@ class UserSolution extends Model
         'user_id',
         'state',
         'source_id',
-        'solution_files_path'
+        'solution_files_path',
+        'user_code'
     ];
     protected $casts = [
         'solution_files_path' => 'array', // Поле для хранения ссылок на файлы
+        'user_code' => 'array'
     ];
     public const STATE_NEW = 'new';
     public const STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN = 'correct_answer_has_been_given';

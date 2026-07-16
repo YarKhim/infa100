@@ -15,7 +15,7 @@ class ViewUserSolution extends ViewRecord
     protected function getHeaderWidgets(): array
     {
         return [
-            UserTaskSolutionStat::class,
+            //UserTaskSolutionStat::class,
         ];
     }
 
