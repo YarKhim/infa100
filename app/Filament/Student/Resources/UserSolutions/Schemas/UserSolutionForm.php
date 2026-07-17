@@ -45,8 +45,8 @@ class UserSolutionForm
                         ])
                             ->label('Файлы к задаче')
                             ->visible(fn($record) => !Task::query()->where('id', $record->task_id)
-                                ->first()
-                                ->files_path==null)
+                                    ->first()
+                                    ->files_path == null)
                     ])
                         ->columnStart(1)
                         ->columns(1),

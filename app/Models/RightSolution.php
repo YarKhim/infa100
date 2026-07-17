@@ -10,6 +10,11 @@ class RightSolution extends Model
         'author_id',
         'task_id',
         'solution',
-        'files_path'
+        'files_path',
+        'code'
+    ];
+    protected $casts = [
+        'files_path' => 'array', // Поле для хранения ссылок на файлы
+        'code' => 'array'
     ];
 }

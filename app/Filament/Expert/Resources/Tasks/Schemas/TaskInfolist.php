@@ -2,8 +2,12 @@
 
 namespace App\Filament\Expert\Resources\Tasks\Schemas;
 
+use App\Filament\Expert\Resources\RightSolutions\RightSolutionResource;
+use App\Models\RightSolution;
+use Filament\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class TaskInfolist
 {
@@ -32,6 +36,33 @@ class TaskInfolist
                     ->placeholder('-'),
                 TextEntry::make('files_path')
                     ->placeholder('-'),
+//                CreateAction::make()
+//                    ->model(RightSolution::class)
+//                    ->successRedirectUrl(fn(RightSolution $record): string => route('right-solutions.edit', $record)
+//                    )
+//                    // ... или через ресурс
+//                    ->successRedirectUrl(fn(RightSolution $record): string => RightSolutionResource::getUrl('edit', ['record' => $record])
+//                    )
+                Action::make('test')
+                    ->action(function ($record) {
+                        //dd($record);
+                        $solution = RightSolution::create([
+                            'author_id' => Auth::id(),
+                            'task_id' => $record->id,
+                            'solution' => '',
+                            'files_path' => ''
+                        ]);
+                        $editUrl = RightSolutionResource::getUrl('edit', ['record' => $solution]);
+                        redirect()->to($editUrl);
+                    })
+                    ->button()
+                    ->visible(function ($record) {
+                        return RightSolution::query()
+                                ->where('task_id', $record->id)
+                                ->get()
+                                ->count() == 0;
+
+                    })
             ]);
     }
 }
