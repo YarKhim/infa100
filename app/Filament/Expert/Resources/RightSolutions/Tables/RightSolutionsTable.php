@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class RightSolutionsTable
@@ -21,8 +22,12 @@ class RightSolutionsTable
                 TextColumn::make('task_id')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('files_path')
-                    ->searchable(),
+                TextColumn::make('task.id_subject')
+                    ->numeric()
+                    ->sortable()
+                    ->label('Предмет'),
+                //                TextColumn::make('files_path')
+                //                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -33,9 +38,10 @@ class RightSolutionsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+
             ])
-            ->recordActions([
+            ->
+            recordActions([
                 ViewAction::make(),
                 EditAction::make(),
             ])

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RightSolution extends Model
 {
@@ -17,4 +18,19 @@ class RightSolution extends Model
         'files_path' => 'array', // Поле для хранения ссылок на файлы
         'code' => 'array'
     ];
+
+    public function userdata(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class, 'task_id');
+    }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class, 'id_subject');
+    }
 }

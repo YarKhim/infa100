@@ -18,6 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
 class ExpertPanelProvider extends PanelProvider
 {
@@ -26,7 +27,7 @@ class ExpertPanelProvider extends PanelProvider
         return $panel
             ->id('expert')
             ->path('expert')
-            ->homeUrl(config("app.url")."/expert")
+            ->homeUrl(config("app.url") . "/expert")
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -52,6 +53,7 @@ class ExpertPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->plugin(SimpleLightBoxPlugin::make())
             ->authMiddleware([
                 Authenticate::class,
             ]);
