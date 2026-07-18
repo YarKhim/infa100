@@ -78,7 +78,7 @@ class TaskForm
                             if (!$subject_id) {
                                 return [];
                             }
-                            return SubjectKimNumber::where('subject_id', $subject_id)->pluck('number_in_kim', 'id');
+                            return SubjectKimNumber::where('subject_id', $subject_id)->pluck('number_in_kim', 'number_in_kim');
                         }),
                     Select::make('difficulty_level')
                         ->options([1 => '1', '2', '3', '4', '5'])
