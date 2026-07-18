@@ -16,7 +16,8 @@ class Task extends Model
         'difficulty_level',
         'answer',
         'condition',
-        'files_path'
+        'files_path',
+
     ];
     //Получаем предмет по его id
     public function subject(): BelongsTo

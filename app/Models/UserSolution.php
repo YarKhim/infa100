@@ -15,7 +15,12 @@ class UserSolution extends Model
         'state',
         'source_id',
         'solution_files_path',
-        'user_code'
+        'user_code',
+        'is_checked',
+        'points_after_check',
+        'is_need_check',
+        'tutor_id',
+        'paths_checked_files'
     ];
     protected $casts = [
         'solution_files_path' => 'array', // Поле для хранения ссылок на файлы
@@ -36,7 +41,10 @@ class UserSolution extends Model
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
     }
-
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
     public function isSolved(): bool
     {
         return in_array($this->state, [self::STATE_INCORRECT_ANSWER_GIVEN, self::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN]);
