@@ -26,10 +26,11 @@ class TutorPanelProvider extends PanelProvider
     {
         return $panel
             ->id('tutor')
-            ->path('mem')
+            ->path('tutor')
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->login()
             ->discoverResources(in: app_path('Filament/Tutor/Resources'), for: 'App\Filament\Tutor\Resources')
             ->discoverPages(in: app_path('Filament/Tutor/Pages'), for: 'App\Filament\Tutor\Pages')
             ->pages([

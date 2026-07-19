@@ -106,7 +106,30 @@ class UserSolutionInfolist
                     ])
                     ->columnStart(1)
                     ->columnSpan(5)
-                    ->columns(3)
+                    ->columns(3),
+                Section::make('Результаты проверки')->schema([
+                    ImageEntry::make('paths_checked_files')
+                        ->label('')
+                        ->getStateUsing(function ($record) {
+                            $res = array();
+                            $paths = $record->paths_checked_files; // доступ к атрибуту модели
+                            //dd($value);
+                            foreach ($paths as $path) {
+                                $res[] = $path['path'];
+                            }
+                            return $res;
+                        })
+//                    ->formatStateUsing()
+                        ->placeholder('Нет прикреплённых файлов')
+                        ->columnStart(1)
+                        ->columns(1)
+                        ->simpleLightbox(),
+                ])
+                    ->columnStart(1)
+                    ->columnSpan(5)
+                    ->columns(3),
+
+
                 //->default('Нет прикреплённых файлов')
             ])
             ->columns(6);

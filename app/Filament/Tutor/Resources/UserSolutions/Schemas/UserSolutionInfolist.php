@@ -40,6 +40,19 @@ class UserSolutionInfolist
                     ->columnStart(1)
                     ->columns(1)
                     ->simpleLightbox(),
+                ImageEntry::make('paths_checked_files')
+                    ->label('Файлы проверки')
+                    ->getStateUsing(function ($record) {
+                        $res = array();
+                        $paths = $record->paths_checked_files; // доступ к атрибуту модели
+                        if ($paths == null) {
+                            return [];
+                        }
+                        foreach ($paths as $path) {
+                            $res[] = $path['path'];
+                        }
+                        return $res;
+                    }),
                 IconEntry::make('is_checked')
                     ->boolean(),
                 TextEntry::make('points_after_check')
@@ -49,8 +62,8 @@ class UserSolutionInfolist
                 TextEntry::make('tutor_id')
                     ->numeric()
                     ->placeholder('-'),
-                TextEntry::make('paths_checked_files')
-                    ->placeholder('-'),
+//                ImageEntry::make('paths_checked_files')
+//                    ->placeholder('-'),
             ]);
     }
 }

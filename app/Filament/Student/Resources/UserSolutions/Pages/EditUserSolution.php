@@ -57,6 +57,11 @@ class EditUserSolution extends EditRecord
         } else {
             $solution->state = UserSolution::STATE_ANSWER_GIVEN_AND_SAVED;
         }
+        $res = array();
+        foreach ($solution->solution_files_path as $path) {
+            $res[] = ['path' => $path];
+        }
+        $solution->paths_checked_files = $res;
         $solution->save();
     }
 }
