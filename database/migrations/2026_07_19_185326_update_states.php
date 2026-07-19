@@ -11,19 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('user_solutions', function (Blueprint $table) {
-            $table->longText('paths_checked_files')
-                ->nullable()
+            $table->string('state')
+                ->default('new')
                 ->change();
-//            $table->boolean('is_checked')
-//                ->default(false);
-//            $table->integer('points_after_check')
-//                ->default(0);
-//            $table->boolean('is_need_check')
-//                ->default(false);
-//            $table->unsignedInteger('tutor_id')
-//                ->nullable();
-//            $table->longText('paths_checked_files')
-//                ->nullable();
         });
     }
 

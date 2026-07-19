@@ -11,6 +11,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\CodeEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use Phiki\Grammar\Grammar;
@@ -26,20 +27,85 @@ class UserSolutionForm
 //                Select::make('task_id')
 //                    ->relationship('task', 'id')
 //                    ->required(),
-                TextEntry::make('user.name')
-                    ->numeric(),
-                TextEntry::make('user_answer')
-                    ->numeric(),
-                TextInput::make('points_after_check')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                ImageEntry::make('solution_files_path')
-                    ->label('Вложения')
-                    ->placeholder('Нет прикреплённых файлов')
-                    ->columnStart(1)
-                    ->columns(1)
-                    ->simpleLightbox(),
+                Section::make('Информация о решении')->schema([
+                    Section::make()->schema([
+                        TextEntry::make('user.name')
+                            ->numeric()
+                            ->columnStart(1)
+                            ->label('Имя ученика'),
+                        TextEntry::make('user_answer')
+                            ->numeric()
+                            ->columnStart(1)
+                            ->label('Ответ ученика'),
+                    ]),
+                    Section::make('Приложения')->schema([
+                        ImageEntry::make('solution_files_path')
+                            ->label('Файлы решения')
+                            ->placeholder('Нет прикреплённых файлов')
+//                            ->columnStart(2)
+                            ->columns(1)
+                            ->simpleLightbox(),
+                        CodeEntry::make('user_code')
+                            ->label('Код к задаче')
+                            ->placeholder('Нет прикреплённого кода')
+                            ->grammar(Grammar::Python)
+                            ->lightTheme(Theme::EverforestLight)
+                            ->darkTheme(Theme::GruvboxDarkHard)
+                            ->copyable()
+                            ->copyMessage('Скопировано!')
+                            ->copyMessageDuration(2000)
+                            ->columnStart(2)
+                            ->columnSpan(3)
+//                            ->columns(3)
+                            ->visible(function ($record) {
+                                return Task::query()
+                                        ->where('id', $record->task_id)
+                                        ->first()
+                                        ->id_subject == 1;
+                                //dd($record->task_id);
+                            }),
+                    ])
+                        ->columnStart(2)
+                        ->columnSpan(3)
+                        ->columns(4)
+                ])
+                    ->columnSpanFull()
+                    ->columns(4),
+                Section::make('Проверка')->schema([
+                    Section::make()->schema([
+                        TextInput::make('points_after_check')
+                            ->required()
+                            ->numeric()
+                            ->label('Баллы по итогам проверки')
+                            ->default(0),
+                    ])
+                        ->columnSpan(1),
+                    Section::make()->schema([
+                        Repeater::make('paths_checked_files')
+                            ->reorderable(false)
+                            ->deletable(false)
+                            ->label('Файлы решения')
+                            ->schema([
+                                ImageEditor::make('path')
+                                    ->label('Фото')
+                                    ->tools(['draw'])
+                                    ->disk('public')
+                                    ->tools([])
+                            ])
+                    ])
+                        ->columnSpan(1),
+
+                ])
+                    ->columnSpanFull()
+                    ->columns(2),
+
+
+//                ImageEntry::make('solution_files_path')
+//                    ->label('Вложения')
+//                    ->placeholder('Нет прикреплённых файлов')
+//                    ->columnStart(1)
+//                    ->columns(1)
+//                    ->simpleLightbox(),
 
 //                Repeater::make('paths_checked_files')
 //                    ->schema([
@@ -53,15 +119,7 @@ class UserSolutionForm
 //                    ->defaultItems(1) // или без
 //                [{"path":"images\/01KXXD6C056YFYH27FXA7NWFTF.jpg"},{"path":"images\/01KXXD6C06Z8YBWXHKAFGAFQPP.png"}]
 //                  ["01KXXD6C056YFYH27FXA7NWFTF.jpg","01KXXD6C06Z8YBWXHKAFGAFQPP.png"]
-                Repeater::make('paths_checked_files')
-                    ->label('Фотографии')
-                    ->schema([
-                        ImageEditor::make('path')
-                            ->label('Фото')
-                            ->tools(['draw'])
-                            ->disk('public')
-                            ->tools([])
-                    ])
+
 //                    ->columnSpanFull(),
 
 
@@ -109,6 +167,7 @@ class UserSolutionForm
 
 //                TextInput::make('paths_checked_files')
 //                    ->default(null),
-            ]);
+            ])
+            ->columns(2);
     }
 }
