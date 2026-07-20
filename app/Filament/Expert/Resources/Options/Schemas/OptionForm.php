@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Options\Schemas;
+namespace App\Filament\Expert\Resources\Options\Schemas;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class OptionForm
@@ -21,7 +20,7 @@ class OptionForm
                 Select::make('source_id')
 
                     ->relationship('source',
-                    'source_name')
+                        'source_name')
             ]);
     }
 }

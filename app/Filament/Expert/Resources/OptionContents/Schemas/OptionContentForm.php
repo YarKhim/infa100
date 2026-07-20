@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\OptionContents\Schemas;
+namespace App\Filament\Expert\Resources\OptionContents\Schemas;
 
 use App\Models\Option;
 use App\Models\Subject;
 use App\Models\Task;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class OptionContentForm
