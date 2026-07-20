@@ -3,6 +3,7 @@
 namespace App\Filament\Student\Resources\UserSolutions\Tables;
 
 use App\Filament\Student\Resources\UserSolutions\Widgets\UserTaskSolutionStat;
+use App\Models\UserSolution;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -43,17 +44,24 @@ class UserSolutionsTable
                         'new' => 'Не решено, можно продолжить решение',
                         'correct_answer_has_been_given' => 'Решено верно',
                         'incorrect_answer_given' => 'Решено неверно',
+                        UserSolution::STATE_SOLUTION_CHECKED => 'Проверено',
+                        'solution_send_to_checking' => 'Отправлено на проверку'
                     })
                     ->icon(fn(string $state): Heroicon => match ($state) {
                         'answer_isnt_given' => Heroicon::CheckCircle,
                         'new' => Heroicon::Clock,
                         'correct_answer_has_been_given' => Heroicon::CheckCircle,
                         'incorrect_answer_given' => Heroicon::Clock,
-                        'solution_on_checking' =>  Heroicon::Clock,
+                        'solution_on_checking' => Heroicon::Clock,
+
+                        UserSolution::STATE_SOLUTION_CHECKED => Heroicon::CheckCircle,
+                        'solution_send_to_checking' => Heroicon::CheckCircle,
                         default => Heroicon::QuestionMarkCircle,
                     })
                     ->iconColor(fn(string $state): string => match ($state) {
+                        UserSolution::STATE_SOLUTION_CHECKED => 'success',
                         'correct_answer_has_been_given' => 'success',
+                        'solution_send_to_checking' => 'info',
                         'new' => 'waring',
                         'incorrect_answer_given' => 'danger',
                         'answer_isnt_given' => 'info',

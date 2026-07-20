@@ -33,6 +33,8 @@ class UserSolution extends Model
     public const STATE_INCORRECT_ANSWER_GIVEN = 'incorrect_answer_given';
     public const STATE_ANSWER_GIVEN_AND_SAVED = 'answer_isnt_given';
     public const STATE_SOLUTION_ON_CHECKING = 'solution_on_checking';
+    public const STATE_SOLUTION_SEND_TO_CHECKING = 'solution_send_to_checking';
+    public const STATE_SOLUTION_CHECKED = 'solution_checked';
 
     public function task(): BelongsTo
     {
@@ -43,11 +45,6 @@ class UserSolution extends Model
     {
         return $this->belongsTo(TaskSource::class, 'id_task_source');
     }
-//    public function points()
-//    {
-//        return $this->belongsToMany(PointsPerTask::class, 'points_per_tasks');
-//    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

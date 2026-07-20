@@ -3,6 +3,7 @@
 namespace App\Filament\Student\Resources\UserSolutions\Schemas;
 
 use App\Models\Task;
+use App\Models\UserSolution;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
@@ -32,35 +33,45 @@ class UserSolutionInfolist
                         ->badge()
                         ->label('Статус решения')
                         ->columnSpan(2)
-
                         ->formatStateUsing(fn(string $state): string => match ($state) {
                             'answer_isnt_given' => 'Ответ сохранён',
                             'solution_on_checking' => 'На проверке',
                             'new' => 'Не решено, можно продолжить решение',
                             'correct_answer_has_been_given' => 'Решено верно',
+                            UserSolution::STATE_SOLUTION_CHECKED => 'Проверено',
                             'incorrect_answer_given' => 'Решено неверно',
+                            'solution_send_to_checking' => 'Отправлено на проверку',
+                            default => 'Надо добавить описание',
                         })
                         ->icon(fn(string $state): Heroicon => match ($state) {
                             'answer_isnt_given' => Heroicon::CheckCircle,
                             'new' => Heroicon::Clock,
                             'correct_answer_has_been_given' => Heroicon::CheckCircle,
+                            UserSolution::STATE_SOLUTION_CHECKED => Heroicon::CheckCircle,
                             'incorrect_answer_given' => Heroicon::XCircle,
                             'solution_on_checking' => Heroicon::Clock,
+                            'solution_send_to_checking' => Heroicon::CheckCircle,
                             default => Heroicon::QuestionMarkCircle,
                         })
                         ->iconColor(fn(string $state): string => match ($state) {
                             'solution_on_checking' => 'info',
                             'correct_answer_has_been_given' => 'success',
+                            UserSolution::STATE_SOLUTION_CHECKED => 'success',
                             'new' => 'waring',
                             'incorrect_answer_given' => 'danger',
                             'answer_isnt_given' => 'info',
+                            'solution_send_to_checking' => 'info',
+                            default => 'danger'
                         })
                         ->color(fn(string $state): string => match ($state) {
                             'solution_on_checking' => 'info',
                             'correct_answer_has_been_given' => 'success',
+                            UserSolution::STATE_SOLUTION_CHECKED => 'success',
                             'new' => 'waring',
                             'incorrect_answer_given' => 'danger',
                             'answer_isnt_given' => 'info',
+                            'solution_send_to_checking' => 'info',
+                            default => 'danger'
                         }),
 
                     TextEntry::make('updated_at')

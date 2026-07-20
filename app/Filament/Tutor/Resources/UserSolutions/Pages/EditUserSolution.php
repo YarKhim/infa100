@@ -31,6 +31,8 @@ class EditUserSolution extends EditRecord
             ->where('source_id', $solution_source)
             ->first();
         $solution->tutor_id = Auth::id();
+        $solution->is_checked = true;
+        $solution->state = UserSolution::STATE_SOLUTION_CHECKED;
         $solution->save();
 
     }
