@@ -52,6 +52,7 @@ class UserSolution extends Model
 
     public function isSolved(): bool
     {
-        return in_array($this->state, [self::STATE_INCORRECT_ANSWER_GIVEN, self::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN]);
+        return in_array($this->state, [self::STATE_INCORRECT_ANSWER_GIVEN, self::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN,
+         self::STATE_SOLUTION_CHECKED, self::STATE_SOLUTION_ON_CHECKING, self::STATE_SOLUTION_SEND_TO_CHECKING   ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Student\Resources\UserSolutions\Pages;
 
 use App\Filament\Student\Resources\UserSolutions\UserSolutionResource;
+use App\Models\PointsPerTask;
 use App\Models\Task;
 use App\Models\UserSolution;
 use Filament\Actions\DeleteAction;
@@ -53,6 +54,12 @@ class EditUserSolution extends EditRecord
                 $user_answer = $this->getRecord()->user_answer;
                 if ($user_answer == $correct_answer) {
                     $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
+                    $subejct_id = $task->id_subject;
+                    $max_points = PointsPerTask::query()->where('subject_id', $subejct_id)
+                        ->where('task_number', $task->task_number_in_the_kim)
+                        ->first()
+                        ->max_points;
+                    $solution->points_after_check = $max_points;
                 } else {
                     $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
                 }

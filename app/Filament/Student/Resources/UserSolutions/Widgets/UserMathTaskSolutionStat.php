@@ -66,14 +66,16 @@ class UserMathTaskSolutionStat extends ChartWidget
                 ->first()
                 ->id_subject;
             if ($task_subject == 3) {
-                $task_number = Task::query()
+                $task = Task::query()
                     ->where('id', $solution->task_id)
-                    ->first()
+                    ->first();
+                $task_number = $task
                     ->task_number_in_the_kim;
                 if (isset($all_solutions[$task_number])) {
                     $all_solutions[$task_number]++;
                 } else $all_solutions[$task_number] = 1;
-                if ($solution->state == 'correct_answer_has_been_given') {
+                if ($solution->state == 'correct_answer_has_been_given' || $solution->points_after_check ==
+                    $task->max_points) {
                     if (isset($right_solutions[$task_number])) {
                         $right_solutions[$task_number]++;
                     } else $right_solutions[$task_number] = 1;
