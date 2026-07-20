@@ -20,8 +20,8 @@ class RightSolutionResource extends Resource
 {
     protected static ?string $model = RightSolution::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::LightBulb;
+    protected static ?string $navigationLabel = 'Решения';
     public static function form(Schema $schema): Schema
     {
         return RightSolutionForm::configure($schema);

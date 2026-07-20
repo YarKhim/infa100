@@ -20,7 +20,8 @@ class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Key;
+    protected static ?string $navigationLabel = 'Роли';
 
     public static function form(Schema $schema): Schema
     {

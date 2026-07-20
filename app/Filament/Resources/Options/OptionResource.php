@@ -33,6 +33,7 @@ class OptionResource extends Resource
     protected static ?string $model = Option::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?string $navigationLabel = 'Варианты';
 
     public static function form(Schema $schema): Schema
     {

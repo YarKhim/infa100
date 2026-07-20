@@ -19,16 +19,23 @@ use Illuminate\Http\Middleware\TrustHosts;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
 
-        $p =  $panel
+        $p = $panel
             ->default()
             ->id('admin')
             ->path('admin')
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile()
+                    ->enableBrowserSessions(condition: true)
+//                    ->customMyProfilePage(AccountSettingsPage::class)
+            ])
             //->homeUrl(config("app.url")."admin")
             ->login()
             ->registration()
@@ -61,6 +68,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
         //dd($p->getUrl());
-            return $p;
+        return $p;
     }
 }

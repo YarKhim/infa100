@@ -23,7 +23,8 @@ class UserSolutionResource extends Resource
     protected static ?string $model = UserSolution::class;
 
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Pencil;
+    protected static ?string $navigationLabel = 'Ваши решения';
 
     public static function form(Schema $schema): Schema
     {

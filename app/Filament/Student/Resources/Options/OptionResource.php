@@ -34,6 +34,7 @@ class OptionResource extends Resource
     protected static ?string $model = Option::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?string $navigationLabel = 'Варианты';
     public static array $points_per_task = [
         1 => [
             1 => 1,
