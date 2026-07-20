@@ -31,9 +31,11 @@ class UserSolutionsTable
                     ->numeric()
                     ->sortable()
                     ->label('ID задачи'),
-                TextColumn::make('user_answer')
-                    ->searchable()
-                    ->label('Ваш ответ'),
+//                TextColumn::make('user_answer')
+//                    ->searchable()
+//                    ->label('Ваш ответ'),
+                TextColumn::make('points_after_check')
+                    ->label('Баллы после проверки'),
 //                TextColumn::make('source_id')
 //                    ->searchable()
 //                    ->label('Источник решения'),
@@ -41,7 +43,7 @@ class UserSolutionsTable
                     ->formatStateUsing(fn(string $state): string => match ($state) {
                         'answer_isnt_given' => 'Ответ сохранён',
                         'solution_on_checking' => 'На проверке',
-                        'new' => 'Не решено, можно продолжить решение',
+                        'new' => 'Ответ не дан',
                         'correct_answer_has_been_given' => 'Решено верно',
                         'incorrect_answer_given' => 'Решено неверно',
                         UserSolution::STATE_SOLUTION_CHECKED => 'Проверено',
@@ -51,9 +53,8 @@ class UserSolutionsTable
                         'answer_isnt_given' => Heroicon::CheckCircle,
                         'new' => Heroicon::Clock,
                         'correct_answer_has_been_given' => Heroicon::CheckCircle,
-                        'incorrect_answer_given' => Heroicon::Clock,
+                        'incorrect_answer_given' => Heroicon::XCircle,
                         'solution_on_checking' => Heroicon::Clock,
-
                         UserSolution::STATE_SOLUTION_CHECKED => Heroicon::CheckCircle,
                         'solution_send_to_checking' => Heroicon::CheckCircle,
                         default => Heroicon::QuestionMarkCircle,

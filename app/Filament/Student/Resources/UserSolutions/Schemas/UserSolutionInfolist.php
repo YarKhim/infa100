@@ -7,6 +7,7 @@ use App\Models\UserSolution;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Infolists\Components\CodeEntry;
 use Filament\Support\Icons\Heroicon;
@@ -17,26 +18,29 @@ class UserSolutionInfolist
 {
     public static function configure(Schema $schema): Schema
     {
+        //composer require jeffgreco13/filament-breezy
         return $schema
             ->components([
                 Section::make()->schema([
                     TextEntry::make('task_id')
                         ->numeric()
+//                        ->columns(1)
                         ->label('Id задачи'),
                     TextEntry::make('user_answer')
                         ->label('Ваш ответ')
                         ->badge()
+//                        ->columns(1)
                         ->visible(function ($record) {
                             return isset($record->user_answer) && $record->user_answer != null;
                         }),
                     TextEntry::make('state')
                         ->badge()
                         ->label('Статус решения')
-                        ->columnSpan(2)
+                        ->columnSpan(1)
                         ->formatStateUsing(fn(string $state): string => match ($state) {
                             'answer_isnt_given' => 'Ответ сохранён',
                             'solution_on_checking' => 'На проверке',
-                            'new' => 'Не решено, можно продолжить решение',
+                            'new' => 'Ответ не дан',
                             'correct_answer_has_been_given' => 'Решено верно',
                             UserSolution::STATE_SOLUTION_CHECKED => 'Проверено',
                             'incorrect_answer_given' => 'Решено неверно',
@@ -73,9 +77,13 @@ class UserSolutionInfolist
                             'solution_send_to_checking' => 'info',
                             default => 'danger'
                         }),
-
+                    TextEntry::make('points_after_check')
+//                        ->columns(1)
+                        ->label('Баллы за задачу'),
                     TextEntry::make('updated_at')
-                        ->dateTime()
+                        ->dateTime('Y-d-m h:m')
+
+//                        ->columns(1)
                         ->placeholder('-')
                         ->label('Отправлено'),
                     //  TextEntry::make('created_at')
@@ -130,10 +138,14 @@ class UserSolutionInfolist
                             $res = array();
                             $paths = $record->paths_checked_files; // доступ к атрибуту модели
                             //dd($value);
-                            foreach ($paths as $path) {
-                                $res[] = $path['path'];
+                            if (isset($paths)) {
+                                foreach ($paths as $path) {
+                                    $res[] = $path['path'];
+                                }
+                                return $res;
                             }
-                            return $res;
+                            return [];
+
                         })
 //                    ->formatStateUsing()
                         ->placeholder('Нет прикреплённых файлов')

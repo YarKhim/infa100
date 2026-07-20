@@ -67,9 +67,10 @@ class UserTaskSolutionStat extends ChartWidget
                 ->first()
                 ->id_subject;
             if ($task_subject == 1) {
-                $task_number = Task::query()
+                $task = Task::query()
                     ->where('id', $solution->task_id)
-                    ->first()
+                    ->first();
+                $task_number = $task
                     ->task_number_in_the_kim;
                 if (isset($all_solutions[$task_number])) {
                     $all_solutions[$task_number]++;
