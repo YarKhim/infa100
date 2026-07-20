@@ -58,6 +58,7 @@ class UserSolutionForm
                         TextInput::make('user_answer')
                             ->required()
                             ->label('Ваш ответ')
+                            ->default('Развёрнутый ответ')
                             ->placeholder('Введите ответ')
                             ->visible(function ($record) {
                                 return Task::query()

@@ -39,6 +39,7 @@ class UserSolutionsTable
                 TextColumn::make('state')
                     ->formatStateUsing(fn(string $state): string => match ($state) {
                         'answer_isnt_given' => 'Ответ сохранён',
+                        'solution_on_checking' => 'На проверке',
                         'new' => 'Не решено, можно продолжить решение',
                         'correct_answer_has_been_given' => 'Решено верно',
                         'incorrect_answer_given' => 'Решено неверно',
@@ -47,7 +48,8 @@ class UserSolutionsTable
                         'answer_isnt_given' => Heroicon::CheckCircle,
                         'new' => Heroicon::Clock,
                         'correct_answer_has_been_given' => Heroicon::CheckCircle,
-                        'incorrect_answer_given' => Heroicon::XCircle,
+                        'incorrect_answer_given' => Heroicon::Clock,
+                        'solution_on_checking' =>  Heroicon::Clock,
                         default => Heroicon::QuestionMarkCircle,
                     })
                     ->iconColor(fn(string $state): string => match ($state) {
@@ -55,6 +57,7 @@ class UserSolutionsTable
                         'new' => 'waring',
                         'incorrect_answer_given' => 'danger',
                         'answer_isnt_given' => 'info',
+                        'solution_on_checking' => 'info',
                     })
                     ->label('Состояние'),
                 //                    ->badge()

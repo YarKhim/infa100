@@ -47,12 +47,18 @@ class EditUserSolution extends EditRecord
             ->where('source_id', $solution_source)
             ->first();
         if ($solution_source == null) {
-            $correct_answer = Task::query()->where('id', $task_id)->first()->answer;
-            $user_answer = $this->getRecord()->user_answer;
-            if ($user_answer == $correct_answer) {
-                $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
+            $task = Task::query()->where('id', $task_id)->first();
+            $correct_answer = $task->answer;
+            if ($task->task_type == 'Задание с кратким ответом') {
+                $user_answer = $this->getRecord()->user_answer;
+                if ($user_answer == $correct_answer) {
+                    $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
+                } else {
+                    $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
+                }
             } else {
-                $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
+                $solution->state = UserSolution::STATE_SOLUTION_ON_CHECKING;
+                $solution->user_answer = 'Развёрнутый ответ';
             }
         } else {
             $solution->state = UserSolution::STATE_ANSWER_GIVEN_AND_SAVED;

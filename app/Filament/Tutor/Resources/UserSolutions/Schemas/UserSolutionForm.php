@@ -2,6 +2,8 @@
 
 namespace App\Filament\Tutor\Resources\UserSolutions\Schemas;
 
+use App\Models\PointsPerTask;
+use App\Models\Subject;
 use App\Models\Task;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -73,11 +75,30 @@ class UserSolutionForm
                     ->columns(4),
                 Section::make('Проверка')->schema([
                     Section::make()->schema([
-                        TextInput::make('points_after_check')
+                        Select::make('points_after_check')
+//                            ->relationship('points', 'subject_id')
+                            ->options(function ($record) {
+                                $task = Task::query()
+                                    ->where('id', $record->task_id)
+                                    ->first();
+                                $subejct_id = $task->id_subject;
+                                $max_points = PointsPerTask::query()->where('subject_id', $subejct_id)
+                                    ->where('task_number', $task->task_number_in_the_kim)
+                                    ->first()
+                                    ->max_points;
+                                $arr = array();
+                                for ($i = 0; $i <= $max_points; $i++) {
+                                    $arr[] = $i;
+                                }
+                                return $arr;
+                            })
                             ->required()
-                            ->numeric()
                             ->label('Баллы по итогам проверки')
-                            ->default(0),
+//                        TextInput::make('points_after_check')
+//                            ->required()
+//                            ->numeric()
+//                            ->label('Баллы по итогам проверки')
+//                            ->default(0),
                     ])
                         ->columnSpan(1),
                     Section::make()->schema([
