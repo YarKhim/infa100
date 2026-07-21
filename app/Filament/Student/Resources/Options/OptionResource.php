@@ -15,6 +15,7 @@ use App\Filament\Student\Resources\UserSolutions\UserSolutionResource;
 use App\Models\Option;
 use App\Models\OptionContent;
 use App\Models\OptionSolution;
+use App\Models\PointsPerTask;
 use App\Models\SubjectPointsTransfer;
 use App\Models\Task;
 use App\Models\UserSolution;
@@ -35,58 +36,58 @@ class OptionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static ?string $navigationLabel = 'Варианты';
-    public static array $points_per_task = [
-        1 => [
-            1 => 1,
-            2 => 1,
-            3 => 1,
-            4 => 1,
-            5 => 1,
-            6 => 1,
-            7 => 1,
-            8 => 1,
-            9 => 1,
-            10 => 1,
-            11 => 1,
-            12 => 1,
-            13 => 1,
-            14 => 1,
-            15 => 1,
-            16 => 1,
-            17 => 1,
-            18 => 1,
-            19 => 1,
-            20 => 1,
-            21 => 1,
-            22 => 1,
-            23 => 1,
-            24 => 1,
-            25 => 1,
-            26 => 2,
-            27 => 2,
-        ],
-        3 => [
-            1 => 1,
-            2 => 1,
-            3 => 1,
-            4 => 1,
-            5 => 1,
-            6 => 1,
-            7 => 1,
-            8 => 1,
-            9 => 1,
-            10 => 1,
-            11 => 1,
-            12 => 1,
-            13 => 2,
-            14 => 3,
-            15 => 2,
-            16 => 2,
-            17 => 3,
-            18 => 4,
-            19 => 4,
-        ]
-    ];
+//    public static array $points_per_task = [
+//        1 => [
+//            1 => 1,
+//            2 => 1,
+//            3 => 1,
+//            4 => 1,
+//            5 => 1,
+//            6 => 1,
+//            7 => 1,
+//            8 => 1,
+//            9 => 1,
+//            10 => 1,
+//            11 => 1,
+//            12 => 1,
+//            13 => 1,
+//            14 => 1,
+//            15 => 1,
+//            16 => 1,
+//            17 => 1,
+//            18 => 1,
+//            19 => 1,
+//            20 => 1,
+//            21 => 1,
+//            22 => 1,
+//            23 => 1,
+//            24 => 1,
+//            25 => 1,
+//            26 => 2,
+//            27 => 2,
+//        ],
+//        3 => [
+//            1 => 1,
+//            2 => 1,
+//            3 => 1,
+//            4 => 1,
+//            5 => 1,
+//            6 => 1,
+//            7 => 1,
+//            8 => 1,
+//            9 => 1,
+//            10 => 1,
+//            11 => 1,
+//            12 => 1,
+//            13 => 2,
+//            14 => 3,
+//            15 => 2,
+//            16 => 2,
+//            17 => 3,
+//            18 => 4,
+//            19 => 4,
+//        ]
+//    ];
 
     public static function form(Schema $schema): Schema
     {
@@ -170,52 +171,63 @@ class OptionResource extends Resource
                     ->color('danger')
                     ->requiresConfirmation()
                     ->action(function (Option $record) {
-                        $points_per_task = [
-                            1 => [
-                                1 => 1,
-                                2 => 1,
-                                3 => 1,
-                                4 => 1,
-                                5 => 1,
-                                6 => 1,
-                                7 => 1,
-                                8 => 1,
-                                9 => 1,
-                                10 => 1,
-                                11 => 1,
-                                12 => 1,
-                                13 => 1,
-                                14 => 1,
-                                15 => 1,
-                                16 => 1,
-                                17 => 1,
-                                18 => 1,
-                                19 => 1,
-                                20 => 1,
-                                21 => 1,
-                                22 => 1,
-                                23 => 1,
-                                24 => 1,
-                                25 => 1,
-                                26 => 2,
-                                27 => 2,
-                            ],
-                        ];
-                        $sum_points = 0;
+//                        $points_per_task = [
+//                            1 => [
+//                                1 => 1,
+//                                2 => 1,
+//                                3 => 1,
+//                                4 => 1,
+//                                5 => 1,
+//                                6 => 1,
+//                                7 => 1,
+//                                8 => 1,
+//                                9 => 1,
+//                                10 => 1,
+//                                11 => 1,
+//                                12 => 1,
+//                                13 => 1,
+//                                14 => 1,
+//                                15 => 1,
+//                                16 => 1,
+//                                17 => 1,
+//                                18 => 1,
+//                                19 => 1,
+//                                20 => 1,
+//                                21 => 1,
+//                                22 => 1,
+//                                23 => 1,
+//                                24 => 1,
+//                                25 => 1,
+//                                26 => 2,
+//                                27 => 2,
+//                            ],
+//                        ];
+                        $sum_points = 0;//Сумма баллов за пробник изначально
                         $solutions = UserSolution::query()
                             ->where('user_id', Auth::id())
                             ->where('source_id', $record->id)
-                            ->get();
-                        $subject_id = $record->subject_id;
+                            ->get(); //получаем все решения пользователя, относящиеся к этом варианту
+                        $subject_id = $record->subject_id; //Получаем id предмета
                         foreach ($solutions as $solution) {
                             $task = Task::query()
                                 ->where('id', $solution->task_id)
                                 ->first();
-                            if ($task->answer == $solution->user_answer) {
-                                $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
-                                $sum_points += $points_per_task[$subject_id][$task->task_number_in_the_kim];
+                            $max_points = PointsPerTask::query()
+                                ->where('task_number', $task->task_number_in_the_kim)
+                                ->first()
+                                ->max_points;
+                            if ($task->task_type == 'Задание с кратким ответом') {
+                                if ($task->answer == $solution->user_answer) {
+                                    $solution->state = UserSolution::STATE_CORRECT_ANSWER_HAS_BEEN_GIVEN;
+                                    $solution->points_after_check = $max_points;
+                                    $sum_points += $max_points;
+                                } else {
+                                    $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
+                                }
                             } else {
-                                $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
+                                $solution->state = UserSolution::STATE_SOLUTION_SEND_TO_CHECKING;
+                                $solution->is_need_check = true;
+                                $solution->user_answer = 'Развёрнутый ответ';
                             }
                             $solution->save();
                         }
