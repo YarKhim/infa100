@@ -47,7 +47,8 @@ class OptionContentForm
                             ->where('id', $option_id)
                             ->first()
                             ->subject_id;
-                        return Task::query()->where('id_subject', $subject_id)->pluck('id');
+                        //dd(Task::query()->where('id_subject', $subject_id)->pluck('id'));
+                        return Task::query()->where('id_subject', $subject_id)->pluck('id', 'id');
                     })
 //                    ->getOptionLabelFromRecordUsing(
 //                        function (Task $record) {

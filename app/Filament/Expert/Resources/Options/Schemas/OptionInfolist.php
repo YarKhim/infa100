@@ -26,7 +26,7 @@ class OptionInfolist
                             ->badge(),
                         Action::make('addTask')->action(
                             function ($record) {
-                                redirect()->to('/expert/option-contents/create?option_id='.$record->id);
+                                redirect()->to('expert/option-contents/create?option_id='.$record->id);
                             }
                         )
                             ->label('Добавить задачу'),
