@@ -19,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
 //use Daikazu\FilamentLightbox\LightBoxPlugin;
@@ -59,6 +60,12 @@ class StudentPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugin(SimpleLightBoxPlugin::make())
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile()
+                    ->enableBrowserSessions(condition: true)
+//                    ->customMyProfilePage(AccountSettingsPage::class)
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ]);

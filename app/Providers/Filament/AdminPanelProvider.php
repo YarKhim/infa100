@@ -20,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->plugin(SimpleLightBoxPlugin::make())
             ->plugins([
                 BreezyCore::make()
                     ->myProfile()
