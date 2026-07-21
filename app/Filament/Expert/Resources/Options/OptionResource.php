@@ -9,6 +9,7 @@ use App\Filament\Expert\Resources\Options\Pages\ViewOption;
 use App\Filament\Expert\Resources\Options\Schemas\OptionForm;
 use App\Filament\Expert\Resources\Options\Schemas\OptionInfolist;
 use App\Filament\Expert\Resources\Options\Tables\OptionsTable;
+use App\Filament\Expert\Resources\Tasks\Schemas\TaskInfolist;
 use App\Models\Option;
 use BackedEnum;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -36,71 +37,7 @@ class OptionResource extends Resource
 //    }
     public static function infolist(Schema $schema): Schema
     {
-        return $schema->schema([
-            Section::make(function (Option $option) {
-                return 'Вариант #' . $option->id;
-            })->schema([
-                Section::make('Информация')->schema([
-                    TextEntry::make('source.source_name')
-                        ->label('Источник Варианта')
-                        ->badge()
-                ])
-                    ->columnStart(1)
-                    ->columnSpan(1),
-
-
-                RepeatableEntry::make('optioncontent')
-                    ->label('Задачи')
-                    ->schema([
-                        TextEntry::make('task.condition')
-                            ->label('Условие')
-                            ->markdown()
-                            ->columnSpan(3),
-                        TextEntry::make('task.answer')
-                            ->label('Ответ')
-                            ->badge()
-                            ->color('info')
-                            ->columnStart(1),
-                        TextEntry::make('task.source.source_name')
-                            ->label('Источник задачи')
-                            ->badge()
-                            ->color('info')
-                            ->columnStart(2)
-//                        Section::make('')->schema([
-//                            TextInput::make('user_answer')
-//                                ->placeholder('Введите ответ')
-//                                ->label('Ответ')
-//                                ->columnStart(1)
-//                                ->columnSpan(4),
-////                            FileUpload::make('solution_files_path')
-////                                ->label('Файлы вашего решения (по необходимости)')
-////                                ->columnStart(1)
-////                                ->columnSpan(4),
-//                            Actions::make([
-//                                Action::make('process')
-//                                    ->label('Обработать')
-//                                    ->action(function (Get $get) {
-//                                        $value = $get('user_answer');
-//                                        dd($value);
-//                                        // делаем что-то с $value
-//                                    })
-//                            ])
-//                        ])
-//                            ->columns(5)
-                    ])
-                    ->columns(3)
-                    ->columnStart(2)
-                    ->columnSpan(3),
-//                Action::make('Send')
-//                    ->label('Отправить на проверку')
-//                    ->icon('heroicon-o-pencil')
-//                    ->color('success')
-//                    ->requiresConfirmation()
-            ])
-                ->columns(4)
-                ->columnSpan(2)
-        ]);
-
+        return OptionInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table

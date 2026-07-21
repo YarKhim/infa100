@@ -29,6 +29,8 @@ class OptionContentForm
                             return 'ID-' . $record->id . ' Предмет-' . $subject_name;
                         }
                     )
+                    ->default(request()->query('option_id'))
+//                    ->disabled()
                     ->placeholder('Выберите id варианта'),
                 Select::make('task_id')
                     ->relationship('task', 'id')
