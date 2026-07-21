@@ -2,6 +2,7 @@
 
 namespace App\Filament\Student\Resources\UserSolutions\Widgets;
 
+use App\Models\PointsPerTask;
 use App\Models\Task;
 use App\Models\UserSolution;
 use Filament\Widgets\ChartWidget;
@@ -46,50 +47,91 @@ class UserTaskSolutionStat extends ChartWidget
 
     protected function getData(): array
     {
-        $user_id = Auth::id();
+//        $user_id = Auth::id();
+//        $users_solutions = UserSolution::query()
+//            ->where('user_id', $user_id)
+//            ->get();
+//        $subject_id = $users_solutions[0]->sunject_id;
+//        $labels = [];
+//        $statistic = [];
+//        for ($i = 1; $i <= $subject_id; $i++) {
+//            $labels[$i] = $i;
+//        }
+//        for ($i = 0; $i < $subject_id; $i++) {
+//            $statistic[$i] = 0;
+//        }
+//        $right_solutions = [];
+//        $all_solutions = [];
+//        foreach ($users_solutions as $solution) {
+//            $task_subject = Task::query()
+//                ->where('id', $solution->task_id)
+//                ->first()
+//                ->id_subject;
+//            if ($task_subject == 1) {
+//                $task = Task::query()
+//                    ->where('id', $solution->task_id)
+//                    ->first();
+//                $task_number = $task
+//                    ->task_number_in_the_kim;
+//                if (isset($all_solutions[$task_number])) {
+//                    $all_solutions[$task_number]++;
+//                } else $all_solutions[$task_number] = 1;
+//                if ($solution->state == 'correct_answer_has_been_given') {
+//                    if (isset($right_solutions[$task_number])) {
+//                        $right_solutions[$task_number]++;
+//                    } else $right_solutions[$task_number] = 1;
+//                }
+//            }
+//
+//        }
+//
+//        foreach (range(1, 27) as $task_number) {
+//            if (isset($right_solutions[$task_number]) && isset($all_solutions[$task_number])) $statistic[$task_number] = $right_solutions[$task_number] * 100 / $all_solutions[$task_number];
+//            else {
+//                $statistic[$task_number] = 0;
+//            }
+//        }
+        $statistic = [];
+        $labels = [];
+        $maximal_res = [];
+        $real_res = [];
+        $user_id = Auth::id();//Получаем текущего пользователя и его id
         $users_solutions = UserSolution::query()
             ->where('user_id', $user_id)
             ->get();
-        $subject_id = $users_solutions[0]->sunject_id;
-        $labels = [];
-        $statistic = [];
-        for ($i = 1; $i <= $subject_id; $i++) {
+        //создаём список со значениями на оси абцисс и с нулевой статистикой по умолчанию
+        for ($i = 1; $i <= 27; $i++) {
             $labels[$i] = $i;
-        }
-        for ($i = 0; $i < $subject_id; $i++) {
             $statistic[$i] = 0;
+            $maximal_res[$i] = 0;
+            $real_res[$i] = 0;
         }
-        $right_solutions = [];
-        $all_solutions = [];
+        //Перебираем все пользовательские решения
         foreach ($users_solutions as $solution) {
-            $task_subject = Task::query()
+            $task = Task::query()
                 ->where('id', $solution->task_id)
-                ->first()
-                ->id_subject;
-            if ($task_subject == 1) {
-                $task = Task::query()
-                    ->where('id', $solution->task_id)
+                ->first();
+            if ($task->id_subject == 1) {
+                //Получаем максимум баллов за задание
+                $task_number = $task->task_number_in_the_kim;
+                $points_per_task = PointsPerTask::query()
+                    ->where('subject_id', $task->id_subject)
+                    ->where('task_number', $task_number)
                     ->first();
-                $task_number = $task
-                    ->task_number_in_the_kim;
-                if (isset($all_solutions[$task_number])) {
-                    $all_solutions[$task_number]++;
-                } else $all_solutions[$task_number] = 1;
-                if ($solution->state == 'correct_answer_has_been_given') {
-                    if (isset($right_solutions[$task_number])) {
-                        $right_solutions[$task_number]++;
-                    } else $right_solutions[$task_number] = 1;
-                }
+                //Получаем как максимум возможных баллов за все решения пользователя так и сколько баллов он
+                // фактическии набрал
+                $maximal_res[$task_number] += $points_per_task->max_points;
+                $real_res[$task_number] += $solution->points_after_check;
             }
-
         }
-
         foreach (range(1, 27) as $task_number) {
-            if (isset($right_solutions[$task_number]) && isset($all_solutions[$task_number])) $statistic[$task_number] = $right_solutions[$task_number] * 100 / $all_solutions[$task_number];
-            else {
-                $statistic[$task_number] = 0;
+            //dump($real_res[$task_number], $maximal_res[$task_number]);
+            if ($maximal_res[$task_number] != 0) {
+                $statistic[$task_number] = $real_res[$task_number] * 100 / $maximal_res[$task_number];
             }
+
         }
+        //dd($statistic);
         $get_color = function ($value) {
             if ($value <= 50) return '#ef4444';
             elseif ($value > 50 && $value <= 85) return '#f59e0b';
