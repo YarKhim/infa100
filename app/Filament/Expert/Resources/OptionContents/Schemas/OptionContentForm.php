@@ -16,6 +16,10 @@ class OptionContentForm
             ->components([
                 Select::make('option_id')
                     ->relationship('option', 'id')
+                    ->live()
+                    ->afterStateUpdated(function ($set) {
+                        $set('task_id', null); // Сбрасываем выбранный предмет
+                    })
                     ->getOptionLabelFromRecordUsing(
                         function (Option $record) {
                             $option_subject = Option::query()
@@ -30,24 +34,34 @@ class OptionContentForm
                         }
                     )
                     ->default(request()->query('option_id'))
-//                    ->disabled()
                     ->placeholder('Выберите id варианта'),
                 Select::make('task_id')
                     ->relationship('task', 'id')
                     ->searchable()
-                    ->getOptionLabelFromRecordUsing(
-                        function (Task $record) {
-                            $option_subject = Task::query()
-                                ->where('id', $record->id)
-                                ->first()
-                                ->id_subject;
-                            $subject_name = Subject::query()
-                                ->where('id', $option_subject)
-                                ->first()
-                                ->subject_name;
-                            return 'ID-' . $record->id . ' Предмет-' . $subject_name;
+                    ->options(function ($get) {
+                        $option_id = $get('option_id');
+                        if (!$option_id) {
+                            return [];
                         }
-                    )
+                        $subject_id = Option::query()
+                            ->where('id', $option_id)
+                            ->first()
+                            ->subject_id;
+                        return Task::query()->where('id_subject', $subject_id)->pluck('id');
+                    })
+//                    ->getOptionLabelFromRecordUsing(
+//                        function (Task $record) {
+//                            $option_subject = Task::query()
+//                                ->where('id', $record->id)
+//                                ->first()
+//                                ->id_subject;
+//                            $subject_name = Subject::query()
+//                                ->where('id', $option_subject)
+//                                ->first()
+//                                ->subject_name;
+//                            return 'ID-' . $record->id . ' Предмет-' . $subject_name;
+//                        }
+//                    )
                     ->required()
                     ->placeholder('Выберите id задания')
 
