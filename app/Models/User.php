@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -25,10 +26,12 @@ class User extends Authenticatable
         'password',
         'role_id'
     ];
-    public function  role():BelongsTo
+
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,5 +53,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
     }
 }

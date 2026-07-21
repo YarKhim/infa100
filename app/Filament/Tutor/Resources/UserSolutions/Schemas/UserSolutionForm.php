@@ -108,6 +108,9 @@ class UserSolutionForm
                             ->label('Файлы решения')
                             ->schema([
                                 ImageEditor::make('path')
+//                                    ->modalSize('7x1')
+//                                    ->previewMaxHeight(800)
+//                                    ->maxOutputSize(width: 4000, height: 4000)
                                     ->label('Фото')
                                     ->tools(['draw'])
                                     ->disk('public')
