@@ -67,10 +67,12 @@ use BackedEnum;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DateTimePicker;
+use Coolsam\Flatpickr\Forms\Components\Flatpickr;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ColorColumn;
@@ -84,6 +86,55 @@ class EventResource extends Resource
     protected static ?string $model = Event::class;
     protected static BackedEnum|null|string $navigationIcon = 'heroicon-o-calendar-days';
     protected static ?string $navigationLabel = 'События';
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return $schema->components([
+            TextEntry::make('title')
+                ->badge()
+                ->label('Название'),
+            //->required()
+            //->maxLength(255),
+
+            TextEntry::make('description')
+                ->badge()
+                ->label('Описание')
+                ->columnSpan(1),
+            //->columnSpanFull(),
+
+            DateTimePicker::make('start')
+                ->label('Начало')
+                ->columnSpan(1),
+//                ->weekStartsOnMonday()
+//                ->native(false)
+//                ->seconds(false)
+//                ->locale('ru')
+//                ->minutesStep(10)
+//                ->required()
+
+            DateTimePicker::make('end')
+                ->label('Конец'),
+//                ->weekStartsOnMonday()
+//                ->required()
+//                ->seconds(false)
+//                ->locale('ru')
+//                ->native(false)
+//                ->minutesStep(10)
+//                ->after('start'),
+
+//            TextEntry::make('all_day')
+//                ->label('Весь день'),
+//                ->default(false),
+
+//            ColorPicker::make('color')
+//                ->label('Цвет')
+//                ->default('#3b82f6'),
+//
+//            Hidden::make('user_id')
+//                ->default(fn() => auth()->id()),
+        ])
+            ->columns(2);
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -100,13 +151,23 @@ class EventResource extends Resource
 
                 DateTimePicker::make('start')
                     ->label('Начало')
-                    ->required()
-                    ->native(false),
+                    ->weekStartsOnMonday()
+                    ->native(false)
+                    ->seconds(false)
+                    ->locale('ru')
+                    ->minutesStep(10)
+                    ->columnSpan(1)
+                    ->required(),
 
                 DateTimePicker::make('end')
                     ->label('Конец')
+                    ->weekStartsOnMonday()
                     ->required()
+                    ->seconds(false)
+                    ->locale('ru')
                     ->native(false)
+                    ->minutesStep(10)
+                    ->columnSpan(1)
                     ->after('start'),
 
                 Toggle::make('all_day')
@@ -119,7 +180,8 @@ class EventResource extends Resource
 
                 Hidden::make('user_id')
                     ->default(fn() => auth()->id()),
-            ]);
+            ])
+            ->columns(2);
     }
 
     public static function table(Table $table): Table
