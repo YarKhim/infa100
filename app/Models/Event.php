@@ -19,6 +19,8 @@ class Event extends Model implements Eventable
         'all_day',
         'location',
         'user_id',
+        'subject_id',
+        'teacher_id'
     ];
 
     protected $casts = [
@@ -32,19 +34,36 @@ class Event extends Model implements Eventable
         return $this->belongsTo(User::class);
     }
 
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
 
     public function toCalendarEvent(): CalendarEvent
     {
         $start = $this->start;
         $end = $this->end;
+        $subject = Subject::query()->where('id', $this->subject_id)->first();
+        if (Subject::query()->where('id', $this->subject_id)->get()->count() != 0) {
+            $title = sprintf(
+                "%s\n%s\n%s\n%s – %s",
+                $this->title,
+                $subject->subject_name,
+                $this->description,
+                $start->format('H:i'),
+                $end->format('H:i')
+            );
+        } else {
+            $title = sprintf(
+                "%s\n%s\n%s – %s",
+                $this->title,
+                $this->description,
+                $start->format('H:i'),
+                $end->format('H:i')
+            );
+        }
+        $subject = Subject::query()->where('id', $this->subject_id)->first();
 
-        $title = sprintf(
-            "%s\n%s\n%s – %s",
-            $this->title,
-            $this->description,
-            $start->format('H:i'),
-            $end->format('H:i')
-        );
         return CalendarEvent::make($this)
             ->key($this->id)
 //            ->title(new HtmlString(nl2br(e($title))))

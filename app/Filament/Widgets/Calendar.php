@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 //namespace App\Filament\Resources\Widgets\Calendar;
 use App\Models\Event;
+use App\Models\Subject;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Guava\Calendar\Contracts\ContextualInfo;
@@ -12,10 +13,12 @@ use Guava\Calendar\ValueObjects\FetchInfo;
 use Illuminate\Database\Eloquent\Builder;
 use Guava\Calendar\Filament\CalendarWidget;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 use Guava\Calendar\Enums\CalendarViewType;
 use Guava\Calendar\Filament\Actions\CreateAction;
 use Guava\Calendar\ValueObjects\EventDropInfo;
+use Illuminate\Support\HtmlString;
 
 class Calendar extends CalendarWidget
 {
@@ -34,15 +37,13 @@ class Calendar extends CalendarWidget
 //    protected bool $dayMaxEvents = true;
 
     //protected CalendarViewType $calendarView = CalendarViewType::ResourceTimeGridWeek;
+//    public function getHeading(): string|HtmlString
+//    {
+//        return  new HtmlString('<div>some html</div>');
+//    }
     protected function getEvents(FetchInfo $info): Collection|array|Builder
     {
         return Event::all();
-//        return [
-//            Event::make()
-//                ->title('Мой первый календарь')
-//                ->start(now())
-//                ->end(now()->addHours(2)),
-//        ];
     }
 
     protected function onEventDrop(EventDropInfo $info, Model $event): bool

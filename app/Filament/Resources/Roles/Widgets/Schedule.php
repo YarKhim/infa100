@@ -9,12 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 //use Guava\Calendar\ValueObjects\FetchInfo;
 
-class Schedule extends CalendarWidget
+class Schedule
 {
-//    protected string $view = 'filament.resources.roles.widgets.schedule';
-
-    protected function getEvents(FetchInfo $info): Collection|array|Builder
-    {
-        return [];
-    }
 }

@@ -69,6 +69,7 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DateTimePicker;
 use Coolsam\Flatpickr\Forms\Components\Flatpickr;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -138,13 +139,18 @@ class EventResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
+//        'subject_id',
+//        'teacher_id'
         return $schema
             ->schema([
                 TextInput::make('title')
                     ->label('Название')
                     ->required()
                     ->maxLength(255),
-
+                Select::make('subject_id')
+                    ->label('Предмет')
+                    ->placeholder('Выберите предмет')
+                    ->relationship('subject', 'subject_name'),
                 Textarea::make('description')
                     ->label('Описание')
                     ->columnSpanFull(),

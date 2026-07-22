@@ -13,7 +13,6 @@ class RoleInfolist
     {
         return $schema
             ->components([
-                Schedule::make(),
                 TextEntry::make('name'),
                 TextEntry::make('created_at')
                     ->dateTime()
