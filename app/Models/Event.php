@@ -6,6 +6,7 @@ use Guava\Calendar\Contracts\Eventable;
 use Guava\Calendar\ValueObjects\CalendarEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\HtmlString;
 
 class Event extends Model implements Eventable
 {
@@ -31,18 +32,42 @@ class Event extends Model implements Eventable
         return $this->belongsTo(User::class);
     }
 
+
     public function toCalendarEvent(): CalendarEvent
     {
-        return CalendarEvent::make()
-            ->title($this->title)
+        $start = $this->start;
+        $end = $this->end;
+
+        $title = sprintf(
+            "%s\n%s\n%s – %s",
+            $this->title,
+            $this->description,
+            $start->format('H:i'),
+            $end->format('H:i')
+        );
+        return CalendarEvent::make($this)
+            ->key($this->id)
+//            ->title(new HtmlString(nl2br(e($title))))
+//            ->title($this->title)
+            ->title($title)
             ->start($this->start)
-            ->end($this->end ?? $this->start)
-            //->description($this->description ?? '')
+            ->styles([
+                'white-space' => 'pre-line', // Важно для отображения переносов строк
+                'line-height' => '1.2',
+                'font-size' => '12px',
+            ])
+//            ->editable(true)
+            ->end($this->end)
+            ->action('view')
+            ->extendedProps([
+                'model' => Event::class,
+                'key' => $this->id,
+            ])
             ->backgroundColor($this->color ?? '#3788d8')
-            //->borderColor($this->color ?? '#3788d8')
             ->textColor($this->getTextColor())
-            ->allDay($this->all_day ?? false)
-            ->url(route('filament.admin.resources.events.edit', $this->id));
+//            ->action('edit')
+            ->allDay($this->all_day ?? false);
+//            ->url(route('filament.admin.resources.events.edit', $this->id));
     }
 
     private function getTextColor(): string
