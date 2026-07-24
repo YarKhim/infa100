@@ -2,8 +2,9 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Student\Widgets\CalendarS;
-use App\Models\Option;
+//use App\Filament\Teacher\Resources\Events\Widgets\Calendar;
+use App\Filament\Teacher\Widgets\Calendar;
+use App\Filament\Teacher\Widgets\CalendarT;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -21,35 +22,35 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
-use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
-//use Daikazu\FilamentLightbox\LightBoxPlugin;
-
-//use SolutionForest\FilamentSimpleLightbox\SimpleLightBoxPlugin;
-class StudentPanelProvider extends PanelProvider
+class TeacherPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('student')
-            ->path('student')
-            ->breadcrumbs(false)
-            ->homeUrl(config("app.url") . "/student")
+            ->id('teacher')
+            ->path('teacher')
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->login()
-            ->discoverResources(in: app_path('Filament/Student/Resources'), for: 'App\Filament\Student\Resources')
-            ->discoverPages(in: app_path('Filament/Student/Pages'), for: 'App\Filament\Student\Pages')
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile()
+                    ->enableBrowserSessions(condition: true)
+//                    ->customMyProfilePage(AccountSettingsPage::class)
+            ])
+            ->discoverResources(in: app_path('Filament/Teacher/Resources'), for: 'App\Filament\Teacher\Resources')
+            ->discoverPages(in: app_path('Filament/Teacher/Pages'), for: 'App\Filament\Teacher\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Teacher/Widgets'), for: 'App\Filament\Teacher\Widgets')
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
-                CalendarS::class,
+                CalendarT::class
+//                Calendar::class
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -62,17 +63,8 @@ class StudentPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->plugin(SimpleLightBoxPlugin::make())
-            ->plugins([
-                BreezyCore::make()
-                    ->myProfile()
-                    ->enableBrowserSessions(condition: true)
-//                    ->customMyProfilePage(AccountSettingsPage::class)
-            ])
             ->authMiddleware([
                 Authenticate::class,
             ]);
-        // ->plugin(SimpleLightBoxPlugin::make());
-//            ->plugin(LightBoxPlugin::make());
     }
 }
