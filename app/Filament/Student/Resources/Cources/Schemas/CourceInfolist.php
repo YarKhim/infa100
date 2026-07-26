@@ -2,12 +2,16 @@
 
 namespace App\Filament\Student\Resources\Cources\Schemas;
 
+use Filament\Actions\Action;
+use App\Models\CourseSubscription;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\TextSize;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 
 class CourceInfolist
@@ -35,10 +39,34 @@ class CourceInfolist
                         //->size(TextSize::Large)
                         ->columnSpan(3)
                         ->columnStart(3),
+                    Action::make('Купить')
+                        ->action(function ($record) {
+                            $cource = CourseSubscription::query()
+                                ->where('cource_id', $record->id)
+                                ->where('user_id', Auth::id())
+                                ->first();
+                            $cource = new CourseSubscription([
+                                'user_id' => Auth::id(),
+                                'cource_id' => $record->id,
+                                'is_active' => true
+                            ]);
+                            $cource->save();
+                            Notification::make()
+                                ->title('Курс приобретён!')
+                                ->success()
+                                ->send();
+                        })
+                        ->visible(fn($record) => CourseSubscription::query()
+                                ->where('cource_id', $record->id)
+                                ->where('user_id', Auth::id())
+                                ->get()
+                                ->count()==0
+                        ),
+//                        ->button(),
                     TextEntry::make('price')
                         ->label('Цена')
                         ->money('RUB')
-                        ->columnStart(3)
+                        ->columnStart(4)
                         ->size(TextSize::Large),
                 ])
                     ->columns(4)
