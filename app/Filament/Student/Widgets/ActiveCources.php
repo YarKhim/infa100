@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class ActiveCources extends Widget
 {
     protected string $view = 'filament.student.widgets.active-cources';
+
 //    protected int|string|array $columnSpan = [
 //        'sm' => 2,
 //        'md' => 1,

@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Student\Widgets\ActiveCources;
+use App\Filament\Student\Widgets\AllCources;
 use App\Filament\Student\Widgets\CalendarS;
 use App\Models\Option;
 use Filament\Http\Middleware\Authenticate;
@@ -48,10 +49,13 @@ class StudentPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
             ->widgets([
+
                 ActiveCources::class,
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-                CalendarS::class,
+                AllCources::class,
+                CalendarS::class
+                //AccountWidget::class,
+                //FilamentInfoWidget::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,
