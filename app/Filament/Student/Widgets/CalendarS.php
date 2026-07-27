@@ -2,6 +2,7 @@
 
 namespace App\Filament\Student\Widgets;
 //namespace App\Filament\Resources\Widgets\Calendar;
+use App\Models\CourseSubscription;
 use App\Models\Event;
 use App\Models\Subject;
 use Filament\Actions\EditAction;
@@ -18,6 +19,7 @@ use Illuminate\Support\Collection;
 use Guava\Calendar\Enums\CalendarViewType;
 use Guava\Calendar\Filament\Actions\CreateAction;
 use Guava\Calendar\ValueObjects\EventDropInfo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 use App\Filament\Widgets\Calendar;
 
@@ -34,7 +36,15 @@ class CalendarS extends CalendarWidget
 
     protected function getEvents(FetchInfo $info): Collection|array|Builder
     {
-        return Event::query();
+        $cources_id = [];
+        $cources = CourseSubscription::query()->where('user_id', Auth::id())->get();
+        foreach ($cources as $cource) {
+            if ($cource->is_active) {
+                $cources_id[] = $cource->cource_id;
+            }
+        }
+
+        return Event::query()->where('cource_id', $cources_id)->orWhere('cource_id', null)->get();
     }
 
     public function viewEventAction(): ViewAction

@@ -34,6 +34,11 @@ class Event extends Model implements Eventable
         return $this->belongsTo(User::class);
     }
 
+    public function cource(): BelongsTo
+    {
+        return $this->belongsTo(Cource::class);
+    }
+
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class, 'subject_id');

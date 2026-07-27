@@ -175,7 +175,10 @@ class EventResource extends Resource
                     ->minutesStep(10)
                     ->columnSpan(1)
                     ->after('start'),
-
+                Select::make('cource_id')
+                    ->label('Курс')
+                    ->placeholder('Укажите к какому курсу относится событие (необязательно)')
+                    ->relationship('cource', 'title'),
                 Toggle::make('all_day')
                     ->label('Весь день')
                     ->default(false),
