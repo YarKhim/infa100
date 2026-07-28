@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Tutor\Resources\UserSolutions\Widgets\CheckStat;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -35,12 +36,14 @@ class TutorPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Tutor/Resources'), for: 'App\Filament\Tutor\Resources')
             ->discoverPages(in: app_path('Filament/Tutor/Pages'), for: 'App\Filament\Tutor\Pages')
             ->pages([
+                Dashboard::class,
                 //Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Tutor/Widgets'), for: 'App\Filament\Tutor\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                CheckStat::class
+//                AccountWidget::class,
+//                FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

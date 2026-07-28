@@ -47,7 +47,7 @@ class CourseSubscriptionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListCourseSubscriptions::route('/'),
+            //'index' => ListCourseSubscriptions::route('/'),
             'create' => CreateCourseSubscription::route('/create'),
             'view' => ViewCourseSubscription::route('/{record}'),
             'edit' => EditCourseSubscription::route('/{record}/edit'),

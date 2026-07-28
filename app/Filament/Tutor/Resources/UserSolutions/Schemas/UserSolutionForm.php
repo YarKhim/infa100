@@ -93,7 +93,11 @@ class UserSolutionForm
                                 return $arr;
                             })
                             ->required()
-                            ->label('Баллы по итогам проверки')
+                            ->label('Баллы по итогам проверки'),
+                        Toggle::make('is_checked')
+                            ->label('Проверка окончена (Изменения после этого будут невозможны)')
+                            ->default(false)
+                            ->required(),
 //                        TextInput::make('points_after_check')
 //                            ->required()
 //                            ->numeric()

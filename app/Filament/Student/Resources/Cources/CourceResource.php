@@ -47,7 +47,7 @@ class CourceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListCources::route('/'),
+            //'index' => ListCources::route('/'),
             'create' => CreateCource::route('/create'),
             'view' => ViewCource::route('/{record}'),
             'edit' => EditCource::route('/{record}/edit'),

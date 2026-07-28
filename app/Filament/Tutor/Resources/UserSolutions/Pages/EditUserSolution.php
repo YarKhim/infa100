@@ -17,7 +17,7 @@ class EditUserSolution extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make(),
+            //DeleteAction::make(),
         ];
     }
 
@@ -31,7 +31,8 @@ class EditUserSolution extends EditRecord
             ->where('source_id', $solution_source)
             ->first();
         $solution->tutor_id = Auth::id();
-        $solution->is_checked = true;
+        $solution->is_checked = $this->getRecord()->is_checked;
+        $solution->is_need_check = !$this->getRecord()->is_checked;
         $solution->state = UserSolution::STATE_SOLUTION_CHECKED;
         $solution->save();
 

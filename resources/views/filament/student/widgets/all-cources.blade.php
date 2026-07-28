@@ -270,16 +270,16 @@
                         @foreach($chunk as $course)
                             <td style="width: 25%; padding: 6px; vertical-align: top;">
                                 <div
-                                        class="fi-section-content bg-white dark:bg-gray-800 rounded shadow-sm hover:shadow
+                                    class="fi-section-content bg-white dark:bg-gray-800 rounded shadow-sm hover:shadow
                                         transition-all duration-200 border dark:border-gray-700 overflow-hidden">
                                     <!-- Изображение с отступами -->
                                     <div class="p-2">
                                         <div class="relative overflow-hidden bg-gray-100 dark:bg-gray-700 rounded-md"
                                              style="padding-bottom: 56.25%;">
                                             <img
-                                                    src="{{env('APP_URL')}}storage/{{ $course->files_paths }}"
-                                                    alt="{{ $course->title }}"
-                                                    class="absolute top-0 left-0 w-full h-full object-cover"
+                                                src="{{env('APP_URL')}}storage/{{ $course->files_paths }}"
+                                                alt="{{ $course->title }}"
+                                                class="absolute top-0 left-0 w-full h-full object-cover"
                                             >
                                         </div>
                                     </div>
@@ -291,10 +291,13 @@
                                         </h4>
                                         <div class="flex items-center justify-center gap-1 mt-1">
                                             <button
-                                                    onclick="window.location.replace
+{{--                                                {{env('APP_URL')}}student/cources/{{$course->id--}}
+{{--                                                     }}--}}
+                                                onclick="window.open
                                                     (`{{env('APP_URL')}}student/cources/{{$course->id
-                                                     }}`)"
-                                                    class="fi-ac-btn-action fi-btn fi-size-md fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950"
+                                                     }}`, '_blank')
+                                                     "
+                                                class="fi-ac-btn-action fi-btn fi-size-md fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950"
                                             >
                                                 Подробнее
                                             </button>

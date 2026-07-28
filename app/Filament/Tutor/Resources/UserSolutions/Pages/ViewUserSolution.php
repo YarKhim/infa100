@@ -13,7 +13,9 @@ class ViewUserSolution extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            EditAction::make()
+                ->label('Проверить')
+                ->visible(fn($record) => !$record->is_checked && $record->is_need_checking),
         ];
     }
 }

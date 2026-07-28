@@ -19,8 +19,6 @@ class UserSolutionsTable
     {
         return $table
             ->columns([
-//                TextColumn::make('task.id')
-//                    ->searchable(),
                 TextColumn::make('task_id')
                     ->numeric()
                     ->sortable()
@@ -29,20 +27,8 @@ class UserSolutionsTable
                     ->numeric()
                     ->label('ID ученика')
                     ->sortable(),
-                TextColumn::make('points_after_check'),
-//                    ->label('Баллы после проверки'),
-//                TextColumn::make('user_answer')
-//                    ->searchable(),
-//                TextColumn::make('state')
-//                    ->badge(),
-
-//                TextColumn::make('user_answer')
-//                    ->searchable()
-//                    ->label('Ваш ответ'),
-
-//                TextColumn::make('source_id')
-//                    ->searchable()
-//                    ->label('Источник решения'),
+                TextColumn::make('points_after_check')
+                    ->label('Баллы после проверки'),
                 TextColumn::make('state')
                     ->formatStateUsing(fn(string $state): string => match ($state) {
                         'answer_isnt_given' => 'Ответ сохранён',
@@ -73,18 +59,6 @@ class UserSolutionsTable
                         'solution_on_checking' => 'info',
                     })
                     ->label('Состояние'),
-//                TextColumn::make('solution_files_path')
-//                    ->searchable(),
-//                TextColumn::make('created_at')
-//                    ->dateTime()
-//                    ->sortable()
-//                    ->toggleable(isToggledHiddenByDefault: true),
-//                TextColumn::make('updated_at')
-//                    ->dateTime()
-//                    ->sortable()
-//                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('source.id')
-                    ->searchable(),
                 IconColumn::make('is_checked')
                     ->boolean()
                     ->label('Проверено'),
@@ -98,8 +72,6 @@ class UserSolutionsTable
                     ->label('ID проверяющего')
                     ->numeric()
                     ->sortable(),
-//                TextColumn::make('paths_checked_files')
-//                    ->searchable(),
             ])
             ->filters([
                 Filter::make('is_checked')
@@ -116,11 +88,13 @@ class UserSolutionsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->label('Проверить')
+                    ->visible(fn($record) => !$record->is_checked && $record->is_need_checking),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    //DeleteBulkAction::make(),
                 ]),
             ]);
     }
