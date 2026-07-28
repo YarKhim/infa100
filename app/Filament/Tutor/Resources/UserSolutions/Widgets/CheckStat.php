@@ -4,16 +4,14 @@ namespace App\Filament\Tutor\Resources\UserSolutions\Widgets;
 
 use App\Models\UserSolution;
 use Carbon\Carbon;
-use Carbon\Traits\ToStringFormat;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
-use Psy\Util\Str;
 
 class CheckStat extends ChartWidget
 {
     public static int $days_per_day = 14;
 
-    protected ?string $heading = 'Статистика проверок';
+    protected ?string $heading = 'Статистика проверок работ вами';
     protected int|string|array $columnSpan = 'full';
     protected ?string $maxHeight = '50vh';
 
@@ -59,7 +57,7 @@ class CheckStat extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Проверка работ',
+                    'label' => 'Проверок работ',
                     'data' => $checks,
                     'backgroundColor' => [
                         '#FF6384',

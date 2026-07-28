@@ -15,7 +15,7 @@ class ViewUserSolution extends ViewRecord
         return [
             EditAction::make()
                 ->label('Проверить')
-                ->visible(fn($record) => !$record->is_checked && $record->is_need_checking),
+                ->visible(fn($record) => !$record->is_checked),
         ];
     }
 }

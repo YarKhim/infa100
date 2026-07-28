@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Tutor\Resources\UserSolutions\Widgets\Checks;
 use App\Filament\Tutor\Resources\UserSolutions\Widgets\CheckStat;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -41,7 +42,8 @@ class TutorPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Tutor/Widgets'), for: 'App\Filament\Tutor\Widgets')
             ->widgets([
-                CheckStat::class
+                CheckStat::class,
+                Checks::class
 //                AccountWidget::class,
 //                FilamentInfoWidget::class,
             ])

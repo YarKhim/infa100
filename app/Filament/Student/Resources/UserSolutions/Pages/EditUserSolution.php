@@ -63,6 +63,7 @@ class EditUserSolution extends EditRecord
                 } else {
                     $solution->state = UserSolution::STATE_INCORRECT_ANSWER_GIVEN;
                 }
+                $solution->is_checked = true;
             } else {
                 $solution->state = UserSolution::STATE_SOLUTION_SEND_TO_CHECKING;
                 $solution->is_need_check = true;

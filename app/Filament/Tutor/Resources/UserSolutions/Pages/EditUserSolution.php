@@ -4,6 +4,7 @@ namespace App\Filament\Tutor\Resources\UserSolutions\Pages;
 
 use App\Filament\Tutor\Resources\UserSolutions\UserSolutionResource;
 use App\Models\UserSolution;
+use Carbon\Carbon;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
@@ -33,7 +34,13 @@ class EditUserSolution extends EditRecord
         $solution->tutor_id = Auth::id();
         $solution->is_checked = $this->getRecord()->is_checked;
         $solution->is_need_check = !$this->getRecord()->is_checked;
-        $solution->state = UserSolution::STATE_SOLUTION_CHECKED;
+        if ($solution->is_checked) {
+            $solution->check_end = Carbon::now();
+            $solution->state = UserSolution::STATE_SOLUTION_CHECKED;
+        }
+        else{
+            $solution->state = UserSolution::STATE_SOLUTION_ON_CHECKING;
+        }
         $solution->save();
 
     }
