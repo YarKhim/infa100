@@ -277,7 +277,7 @@
                                         <div class="relative overflow-hidden bg-gray-100 dark:bg-gray-700 rounded-md"
                                              style="padding-bottom: 56.25%;">
                                             <img
-                                                    src="http://172.18.253.46:8088/storage/{{ $course->files_paths }}"
+                                                    src="{{env('APP_URL')}}storage/{{ $course->files_paths }}"
                                                     alt="{{ $course->title }}"
                                                     class="absolute top-0 left-0 w-full h-full object-cover"
                                             >
@@ -291,7 +291,9 @@
                                         </h4>
                                         <div class="flex items-center justify-center gap-1 mt-1">
                                             <button
-                                                    onclick="window.location.replace(`http://172.18.253.46:8088/student/cources/{{$course->id }}`)"
+                                                    onclick="window.location.replace
+                                                    (`{{env('APP_URL')}}student/cources/{{$course->id
+                                                     }}`)"
                                                     class="fi-ac-btn-action fi-btn fi-size-md fi-color fi-color-primary fi-bg-color-400 hover:fi-bg-color-300 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-900 hover:fi-text-color-800 dark:fi-text-color-950 dark:hover:fi-text-color-950"
                                             >
                                                 Подробнее

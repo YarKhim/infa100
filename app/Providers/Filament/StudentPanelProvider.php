@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Student\Resources\UserSolutions\Widgets\UserMathTaskSolutionStat;
+use App\Filament\Student\Resources\UserSolutions\Widgets\UserTaskSolutionStat;
 use App\Filament\Student\Widgets\ActiveCources;
 use App\Filament\Student\Widgets\AllCources;
 use App\Filament\Student\Widgets\CalendarS;
@@ -49,7 +51,8 @@ class StudentPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
             ->widgets([
-
+                UserTaskSolutionStat::class,
+                UserMathTaskSolutionStat::class,
                 ActiveCources::class,
                 AllCources::class,
                 CalendarS::class

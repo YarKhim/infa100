@@ -11,6 +11,8 @@ class AllCources extends Widget
 {
     protected string $view = 'filament.student.widgets.all-cources';
     protected int | string | array $columnSpan= 'full';
+    // Этот виджет будет показан первым, так как имеет наименьшее значение `$sort`
+    protected static ?int $sort = 4;
     protected function getViewData(): array
     {
         return [

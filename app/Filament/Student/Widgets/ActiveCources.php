@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class ActiveCources extends Widget
 {
     protected string $view = 'filament.student.widgets.active-cources';
-
+    // Этот виджет будет показан первым, так как имеет наименьшее значение `$sort`
+    protected static ?int $sort = 2;
 //    protected int|string|array $columnSpan = [
 //        'sm' => 2,
 //        'md' => 1,

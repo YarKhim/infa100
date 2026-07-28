@@ -26,7 +26,8 @@ use App\Filament\Widgets\Calendar;
 class CalendarS extends CalendarWidget
 {
     protected CalendarViewType $calendarView = CalendarViewType::DayGridMonth;
-
+    // Этот виджет будет показан первым, так как имеет наименьшее значение `$sort`
+    protected static ?int $sort = 1;
     protected bool $dateClickEnabled = false;
     protected bool $dateSelectEnabled = true;
     protected bool $eventClickEnabled = true;

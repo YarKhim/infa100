@@ -13,7 +13,8 @@ class UserTaskSolutionStat extends ChartWidget
     public ?UserSolution $record = null;
     protected ?string $maxHeight = '40vh';
     protected ?string $heading = 'Статистика решения задач по информатике в %';
-    protected int|string|array $columnSpan = '7';
+    protected int|string|array $columnSpan = 'full';
+    protected static ?int $sort = 4;
     public $subjects_tasks_numbers = [
         'Inf' => 27,
         'math' => 19,

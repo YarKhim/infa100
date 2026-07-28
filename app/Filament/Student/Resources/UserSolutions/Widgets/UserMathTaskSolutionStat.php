@@ -12,8 +12,9 @@ class UserMathTaskSolutionStat extends ChartWidget
 {
     protected ?string $heading = 'Статистика решения задач по профильной математике в %';
     protected ?string $maxHeight = '40vh';
-    protected int|string|array $columnSpan = '7';
+    protected int|string|array $columnSpan = 'full';
     public ?UserSolution $record = null;
+    protected static ?int $sort = 5;
     public $subjects_tasks_numbers = [
         1 => 27,
         3 => 19,
