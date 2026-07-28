@@ -52,7 +52,7 @@ class TaskResource extends Resource
             'index' => ListTasks::route('/'),
             //'create' => CreateTask::route('/create'),
             'view' => ViewTask::route('/{record}'),
-            'solve' => Pages\Solve::route('/{record}/solve'),
+            //'solve' => Pages\Solve::route('/{record}/solve'),
             //'edit' => EditTask::route('/{record}/edit'),
         ];
     }

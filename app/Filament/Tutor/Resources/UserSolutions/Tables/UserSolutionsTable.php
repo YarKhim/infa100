@@ -18,6 +18,11 @@ class UserSolutionsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(
+                UserSolution::query()
+                    ->where('is_checked', false)
+                    ->where('is_need_check', true)
+            )
             ->columns([
                 TextColumn::make('task_id')
                     ->numeric()
@@ -96,6 +101,11 @@ class UserSolutionsTable
                 BulkActionGroup::make([
                     //DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->poll('10s') // Автообновление каждые 10 секунд
+            ->striped() // Полосатая таблица
+            ->emptyStateHeading('Нет записей')
+            ->emptyStateDescription('Пока нет заданий которые нужно проверить')
+            ->emptyStateIcon('heroicon-o-book-open');
     }
 }

@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Checks extends TableWidget
 {
+    protected static ?string $heading = 'Задачи, взятые в проверку вами';
+
     protected int|string|array $columnSpan = '1';
 
     public function table(Table $table): Table
@@ -83,10 +85,6 @@ class Checks extends TableWidget
                         return $query->where('is_need_check', true);
                     })
                     ->label('Необходима проверка'),
-
-                Filter::make('created_at')
-                    ->label('Создано сегодня')
-                    ->query(fn($query) => $query->whereDate('created_at', today())),
             ])
             ->actions([
                 ViewAction::make('view')
@@ -100,9 +98,6 @@ class Checks extends TableWidget
             ->striped() // Полосатая таблица
             ->emptyStateHeading('Нет записей')
             ->emptyStateDescription('У вас пока нет проверок')
-            ->emptyStateIcon('heroicon-o-book-open')
-            ->emptyStateActions([
-
-            ]);
+            ->emptyStateIcon('heroicon-o-book-open');
     }
 }
