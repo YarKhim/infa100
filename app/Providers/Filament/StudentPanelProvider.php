@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Student\Resources\UserSolutions\Widgets\AllSoluteStat;
+use App\Filament\Student\Widgets\AllStatWidget;
+use App\Filament\Student\Widgets\SolutionsStatisticInf;
 use App\Filament\Student\Resources\UserSolutions\Widgets\UserMathTaskSolutionStat;
 use App\Filament\Student\Resources\UserSolutions\Widgets\UserTaskSolutionStat;
 use App\Filament\Student\Widgets\ActiveCources;
@@ -25,6 +28,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
 //use Daikazu\FilamentLightbox\LightBoxPlugin;
@@ -51,6 +55,7 @@ class StudentPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
             ->widgets([
+//                AllSoluteStat::class,
                 UserTaskSolutionStat::class,
                 UserMathTaskSolutionStat::class,
                 ActiveCources::class,
@@ -73,6 +78,7 @@ class StudentPanelProvider extends PanelProvider
             ])
             ->plugin(SimpleLightBoxPlugin::make())
             ->plugins([
+                FilamentApexChartsPlugin::make(),
                 BreezyCore::make()
                     ->myProfile()
                     ->enableBrowserSessions(condition: true)

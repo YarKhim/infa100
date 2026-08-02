@@ -27,7 +27,10 @@ class Option extends Model
     {
         return $this->hasMany(OptionContent::class);
     }
-
+    public function solution() :HasMany
+    {
+        return $this->hasMany(OptionSolution::class);
+    }
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);

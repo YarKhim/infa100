@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Tutor\Resources\UserSolutions\Widgets\CheckingStatistic;
 use App\Filament\Tutor\Resources\UserSolutions\Widgets\Checks;
 use App\Filament\Tutor\Resources\UserSolutions\Widgets\CheckStat;
 use Filament\Http\Middleware\Authenticate;
@@ -22,6 +23,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class TutorPanelProvider extends PanelProvider
 {
@@ -42,7 +44,8 @@ class TutorPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Tutor/Widgets'), for: 'App\Filament\Tutor\Widgets')
             ->widgets([
-                CheckStat::class,
+                CheckingStatistic::class,
+                //CheckStat::class,
                 Checks::class
 //                AccountWidget::class,
 //                FilamentInfoWidget::class,
@@ -60,6 +63,7 @@ class TutorPanelProvider extends PanelProvider
             ])
             ->plugin(SimpleLightBoxPlugin::make())
             ->plugins([
+                FilamentApexChartsPlugin::make(),
                 BreezyCore::make()
                     ->myProfile()
                     ->enableBrowserSessions(condition: true)

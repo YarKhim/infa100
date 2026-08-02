@@ -65,11 +65,14 @@ class Checks extends TableWidget
                         'solution_on_checking' => 'info',
                     })
                     ->label('Состояние'),
-                IconColumn::make('is_checked')
-                    ->boolean()
-                    ->label('Проверено'),
+//                IconColumn::make('is_checked')
+//                    ->boolean()
+//                    ->label('Проверено'),
+                TextColumn::make('task.subject.subject_name')
+                    ->label('Предмет')
+                    ->sortable(),
                 TextColumn::make('check_end')
-                    ->label('Дата проверки')
+                    ->label('Проверено')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
             ])
@@ -80,7 +83,7 @@ class Checks extends TableWidget
                     })
                     ->label('Проверено'),
                 Filter::make('is_need_check')
-                    ->default()
+                    //->default()
                     ->query(function ($query) {
                         return $query->where('is_need_check', true);
                     })
