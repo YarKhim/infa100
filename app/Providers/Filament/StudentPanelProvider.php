@@ -56,8 +56,8 @@ class StudentPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
             ->widgets([
 //                AllSoluteStat::class,
-                UserTaskSolutionStat::class,
-                UserMathTaskSolutionStat::class,
+//                UserTaskSolutionStat::class,
+//                UserMathTaskSolutionStat::class,
                 ActiveCources::class,
                 AllCources::class,
                 CalendarS::class

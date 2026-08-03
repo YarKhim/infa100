@@ -27,13 +27,14 @@ class CalendarS extends CalendarWidget
 {
     protected CalendarViewType $calendarView = CalendarViewType::DayGridMonth;
     // Этот виджет будет показан первым, так как имеет наименьшее значение `$sort`
-    protected static ?int $sort = 1;
+    protected static ?int $sort = 0;
     protected bool $dateClickEnabled = false;
     protected bool $dateSelectEnabled = true;
     protected bool $eventClickEnabled = true;
     protected bool $eventDragEnabled = false;
     protected bool $useFilamentTimezone = true;
     protected bool $datesSetEnabled = true;
+
 
     protected function getEvents(FetchInfo $info): Collection|array|Builder
     {

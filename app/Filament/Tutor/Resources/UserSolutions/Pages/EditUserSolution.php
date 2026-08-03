@@ -3,7 +3,9 @@
 namespace App\Filament\Tutor\Resources\UserSolutions\Pages;
 
 use App\Filament\Tutor\Resources\UserSolutions\UserSolutionResource;
+use App\Models\Billing;
 use App\Models\UserSolution;
+use App\Models\Wallet;
 use Carbon\Carbon;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
@@ -35,10 +37,26 @@ class EditUserSolution extends EditRecord
         $solution->is_checked = $this->getRecord()->is_checked;
         $solution->is_need_check = !$this->getRecord()->is_checked;
         if ($solution->is_checked) {
+            $PRICE = 5;
             $solution->check_end = Carbon::now();
             $solution->state = UserSolution::STATE_SOLUTION_CHECKED;
-        }
-        else{
+            $wallet = Wallet::query()->where('user_id', Auth::id())->first();
+            if (!isset($wallet)) {
+                $wallet = new Wallet([
+                    'user_id' => Auth::id(),
+                    'account' => 0
+                ]);
+            }
+            $billing = Billing::make([
+                'tutor_id' => Auth::id(),
+                'operation_type' => 'crediting',
+                'solution_id' => $solution->id,
+                'summary' => $PRICE
+            ]);
+            $billing->save();
+            $wallet->account += $billing->summary;
+            $wallet->save();
+        } else {
             $solution->state = UserSolution::STATE_SOLUTION_ON_CHECKING;
         }
         $solution->save();

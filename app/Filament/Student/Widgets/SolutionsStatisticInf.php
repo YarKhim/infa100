@@ -3,12 +3,14 @@
 namespace App\Filament\Student\Widgets;
 
 use App\Models\PointsPerTask;
+use App\Models\Subject;
 use App\Models\Task;
 use App\Models\UserSolution;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 use Illuminate\Support\Facades\Auth;
+use Leandrocfe\FilamentApexCharts\Enums\ApexChartTypeEnum;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class SolutionsStatisticInf extends ApexChartWidget
@@ -26,6 +28,8 @@ class SolutionsStatisticInf extends ApexChartWidget
      * @var string|null
      */
     use HasFiltersSchema;
+
+    protected static ?int $sort = 1;
 
     public function filtersSchema(Schema $schema): Schema
     {
@@ -60,8 +64,9 @@ class SolutionsStatisticInf extends ApexChartWidget
     }
 
     protected static ?string $heading = 'Статистика решений задач';
+//    protected static ?string $subheading = 'По информатике';
     protected int|string|array $columnSpan = 'full';
-
+    protected static ?string $loadingIndicator = 'Загрузка...';
     /**
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options
@@ -81,7 +86,9 @@ class SolutionsStatisticInf extends ApexChartWidget
             4 => 26
         ];
         $subject = $this->filters['subject'];
+        SolutionsStatisticInf::$subheading = Subject::query()->where('id', $subject)->first()->subject_name;
         $statistic = [];
+        $colors = [];
         $labels = [];
         $maximal_res = [];
         $real_res = [];
@@ -90,7 +97,7 @@ class SolutionsStatisticInf extends ApexChartWidget
             ->where('user_id', $user_id)
             ->get();
         //создаём список со значениями на оси абцисс и с нулевой статистикой по умолчанию
-        for ($i = 0; $i <= $subjects_tasks_count[$subject] - 1; $i++) {
+        for ($i = 0; $i <= $subjects_tasks_count[$subject]; $i++) {
             $labels[$i] = $i;
             $statistic[$i] = 0;
             $maximal_res[$i] = 0;
@@ -112,12 +119,12 @@ class SolutionsStatisticInf extends ApexChartWidget
                 $real_res[$task_number] += $solution->points_after_check;
             }
         }
-        foreach (range(0, $subjects_tasks_count[$subject] - 1) as $task_number) {
+        foreach (range(0, $subjects_tasks_count[$subject]) as $task_number) {
             //dump($real_res[$task_number], $maximal_res[$task_number]);
             if ($maximal_res[$task_number] != 0) {
-                $statistic[$task_number] = $real_res[$task_number] * 100 / $maximal_res[$task_number];
-            }
+                $statistic[$task_number - 1] = (integer)$real_res[$task_number] * 100 / $maximal_res[$task_number];
 
+            }
         }
         //dd($statistic);
 //        $get_color = function ($value) {
@@ -130,9 +137,15 @@ class SolutionsStatisticInf extends ApexChartWidget
 //        dd($statistic, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
 //            25 ,26, 27]);
         return [
+//            ApexChartTypeEnum::Heatmap
             'chart' => [
+//                'subheading' => Subject::query($subject)->first()->subject_name,
                 'type' => 'bar',
                 'height' => 400,
+            ],
+            'grid' => [
+                'borderColor' => '#E5E7EB',
+                'strokeDashArray' => 4,
             ],
             'series' => [
                 [
@@ -140,6 +153,7 @@ class SolutionsStatisticInf extends ApexChartWidget
                     'data' => $statistic,
                 ],
             ],
+
             'xaxis' => [
                 'categories' => range(1, $subjects_tasks_count[$subject]),
                 'labels' => [
@@ -150,18 +164,16 @@ class SolutionsStatisticInf extends ApexChartWidget
             ],
             'yaxis' => [
                 'labels' => [
-                    'style' => [
-                        'fontFamily' => 'inherit',
-                    ],
+                    'show' => true, // Скрываем подписи на оси Y
                 ],
             ],
-            'colors' => ['#f59e0b'],
             'plotOptions' => [
                 'bar' => [
                     'borderRadius' => 5,
                     'vertical' => true,
                 ],
             ],
+            'fill' => ['#f59e0b'],
         ];
     }
 }
