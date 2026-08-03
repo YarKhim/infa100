@@ -7,4 +7,5 @@ return [
     App\Providers\Filament\StudentPanelProvider::class,
     App\Providers\Filament\TutorPanelProvider::class,
     App\Providers\Filament\TeacherPanelProvider::class,
+    App\Providers\Filament\AccountantPanelProvider::class,
 ];
