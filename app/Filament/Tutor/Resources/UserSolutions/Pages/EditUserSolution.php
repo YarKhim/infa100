@@ -55,6 +55,7 @@ class EditUserSolution extends EditRecord
             ]);
             $billing->save();
             $wallet->account += $billing->summary;
+            $billing->wallet_id = $wallet->id;
             $wallet->save();
         } else {
             $solution->state = UserSolution::STATE_SOLUTION_ON_CHECKING;

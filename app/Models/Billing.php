@@ -11,5 +11,6 @@ class Billing extends Model
         'tutor_id',
         'summary',
         'solution_id',
+        'wallet_id'
     ];
 }
