@@ -35,11 +35,6 @@ class WalletInfolist
                         ->label('Ваш баланс')
                         ->suffix('₽')
                         ->size(TextSize::Large),
-//                    Action::make('MakeQuery')
-//                        ->label('Запросить вывод средств')
-//                        ->action(function ($record) {
-//                            CreateWithdrawalFunds::make();
-//                        })
                     Action::make('create')
                         ->label('Запросить вывод средств')
                         ->form([
@@ -62,10 +57,8 @@ class WalletInfolist
                                 ->required(),
                         ])
                         ->action(function (array $data, $record) {
-                            //dd($data['summary']);
                             $data['user_id'] = Auth::id();
                             $data['wallet_id'] = $record->id;
-//                            dd($data);
                             WithdrawalFunds::create($data);
                         })
                         ->modalHeading('Запрос на вывод средств')
@@ -76,55 +69,55 @@ class WalletInfolist
                 ])
                     ->columnSpan(1),
                 Section::make('История операций')->schema([
-                    RepeatableEntry::make('billing') // 'faqs' — это имя отношения
-                    ->schema([
-                        TextEntry::make('operation_type')
-                            ->hiddenLabel()
-                            ->formatStateUsing(function ($record) {
-                                if ($record->operation_type == 'crediting') {
-                                    return 'Зачисление средств';
-                                } else {
-                                    return 'Списание средств';
-                                }
-                            })
-                            ->badge()
-                            ->color(function ($record) {
-                                if ($record->operation_type == 'crediting') {
-                                    return Color::Green;
-                                } else {
-                                    return Color::Red;
-                                }
-                            }),
-                        TextEntry::make('summary')
-                            ->hiddenLabel()
-                            ->badge()
-                            ->prefix(fn($record) => $record->operation_type == 'crediting' ? '+' : '-')
-                            ->suffix('₽')
-                            ->color(function ($record) {
-                                if ($record->operation_type == 'crediting') {
-                                    return Color::Green;
-                                } else {
-                                    return Color::Red;
-                                }
-                            }),
-                        TextEntry::make('solution_id')
-                            ->formatStateUsing(function ($record) {
-                                if ($record->operation_type == 'crediting') {
-                                    return 'Проверка задачи';
-                                } else {
-                                    return 'Вывод';
-                                }
-                            })
-                            ->url(function ($record) {
-                                return UserSolutionResource::getUrl('view', ['record' => $record->solution_id]);
-                            })
-                            ->openUrlInNewTab()
-                            ->hiddenLabel(),
-                        TextEntry::make('created_at')
-                            ->hiddenLabel()
-                            ->dateTime('y-m-d h:m')
-                            ->placeholder('-'),
-                    ])
+                    RepeatableEntry::make('billing')
+                        ->schema([
+                            TextEntry::make('operation_type')
+                                ->hiddenLabel()
+                                ->formatStateUsing(function ($record) {
+                                    if ($record->operation_type == 'crediting') {
+                                        return 'Зачисление средств';
+                                    } else {
+                                        return 'Списание средств';
+                                    }
+                                })
+                                ->badge()
+                                ->color(function ($record) {
+                                    if ($record->operation_type == 'crediting') {
+                                        return Color::Green;
+                                    } else {
+                                        return Color::Red;
+                                    }
+                                }),
+                            TextEntry::make('summary')
+                                ->hiddenLabel()
+                                ->badge()
+                                ->prefix(fn($record) => $record->operation_type == 'crediting' ? '+' : '-')
+                                ->suffix('₽')
+                                ->color(function ($record) {
+                                    if ($record->operation_type == 'crediting') {
+                                        return Color::Green;
+                                    } else {
+                                        return Color::Red;
+                                    }
+                                }),
+                            TextEntry::make('solution_id')
+                                ->formatStateUsing(function ($record) {
+                                    if ($record->operation_type == 'crediting') {
+                                        return 'Проверка задачи';
+                                    } else {
+                                        return 'Вывод';
+                                    }
+                                })
+                                ->url(function ($record) {
+                                    return UserSolutionResource::getUrl('view', ['record' => $record->solution_id]);
+                                })
+                                ->openUrlInNewTab()
+                                ->hiddenLabel(),
+                            TextEntry::make('created_at')
+                                ->hiddenLabel()
+                                ->dateTime('y-m-d h:m')
+                                ->placeholder('-'),
+                        ])
                         ->columns(4),
                 ])->columnSpan(2)
             ])

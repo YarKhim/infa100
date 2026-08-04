@@ -48,9 +48,9 @@ class WithdrawalFundsResource extends Resource
     {
         return [
             'index' => ListWithdrawalFunds::route('/'),
-            'create' => CreateWithdrawalFunds::route('/create'),
+            //'create' => CreateWithdrawalFunds::route('/create'),
             'view' => ViewWithdrawalFunds::route('/{record}'),
-            'edit' => EditWithdrawalFunds::route('/{record}/edit'),
+            //'edit' => EditWithdrawalFunds::route('/{record}/edit'),
         ];
     }
 }
